@@ -6,7 +6,7 @@ import java.util.Objects;
  * this class will present a point in the space and it will serve all primitives
  */
 public class Point {
-    public static final Point ZERO = new Point(Double3.ZERO);
+    public static final Point ZERO = new Point(Double3.ZERO); //should be deleted
     /**
      * the value of the point
      */

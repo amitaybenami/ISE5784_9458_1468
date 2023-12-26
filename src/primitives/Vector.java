@@ -22,7 +22,7 @@ public class Vector extends Point {
      * @param xyz the value of the vector
      * @throws IllegalArgumentException if the given Double3 is the Double3.ZERO
      */
-    public Vector(Double3 xyz) {
+    public Vector(Double3 xyz) {//should be default modifier access
         super(xyz);
         if (xyz.equals(Double3.ZERO))
             throw new IllegalArgumentException("the zero vector is illegal to use");
