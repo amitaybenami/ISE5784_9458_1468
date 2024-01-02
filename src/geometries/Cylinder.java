@@ -1,6 +1,9 @@
 package geometries;
 
+import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
+import primitives.Vector;
 
 /**
  * this class will represent a cylinder
@@ -21,4 +24,17 @@ public class Cylinder extends Tube {
         this.height = height;
     }
 
+    @Override
+    public Vector getNormal(Point point) {
+        // point is on the first base
+        if (point.equals(axis.getHead())|| Util.isZero(point.subtract(axis.getHead()).dotProduct(axis.getDirection()))){
+            return axis.getDirection().scale(-1).normalize();
+        }
+        //point is on the second base
+        if (point.equals(axis.getHead().add(axis.getDirection().scale(height)))|| Util.isZero(point.subtract(axis.getHead().add(axis.getDirection().scale(height))).dotProduct(axis.getDirection()))){
+            return axis.getDirection().normalize();
+        }
+        //point is on the tube
+        return super.getNormal(point);
+    }
 }

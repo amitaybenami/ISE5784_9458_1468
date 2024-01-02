@@ -1,6 +1,7 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Util;
 import primitives.Vector;
 
 /**
@@ -30,8 +31,10 @@ public class Plane implements Geometry {
      * @param p3 third point
      */
     public Plane(Point p1, Point p2, Point p3) {
+        if (p1.equals(p2))
+            throw new IllegalArgumentException("ERROR: constructing a plane with coalesces points is impossible");
         q = p1;
-        normal = null;
+        normal = (p1.subtract(p2).crossProduct(p2.subtract(p3))).normalize();
     }
 
     /**

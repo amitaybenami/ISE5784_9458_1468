@@ -10,6 +10,14 @@ public class Ray {
     private final Point head;
     private final Vector direction;
 
+    public Vector getDirection() {
+        return direction;
+    }
+
+    public Point getHead() {
+        return head;
+    }
+
     /**
      * this constructor gets point and vector and creates the matching ray
      *
