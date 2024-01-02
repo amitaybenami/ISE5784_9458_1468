@@ -1,5 +1,9 @@
 package geometries;
 
+/**
+ * this is an abstract class for any geometric object using radial geometry (circles)
+ * @author Elad and Amitay
+ */
 public abstract class RadialGeometry implements Geometry {
     /**
      * the radius of the object

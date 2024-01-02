@@ -1,5 +1,9 @@
 package primitives;
 
+/**
+ * this class will represent vectors
+ * @author Elad and Amitay
+ */
 public class Vector extends Point {
     /**
      * constructor that gets 3 doubles and make the matching vector
@@ -22,7 +26,7 @@ public class Vector extends Point {
      * @param xyz the value of the vector
      * @throws IllegalArgumentException if the given Double3 is the Double3.ZERO
      */
-    public Vector(Double3 xyz) {//should be default modifier access
+     Vector(Double3 xyz) {
         super(xyz);
         if (xyz.equals(Double3.ZERO))
             throw new IllegalArgumentException("the zero vector is illegal to use");
@@ -35,6 +39,7 @@ public class Vector extends Point {
      * @return result of addition
      */
 
+    @Override
     public Vector add(Vector v) {
         return new Vector(xyz.add(v.xyz));
     }

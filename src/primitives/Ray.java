@@ -2,6 +2,10 @@ package primitives;
 
 import java.util.Objects;
 
+/**
+ * this class represents a ray in 3D space
+ * @author Elad and Amitay
+ */
 public class Ray {
     private final Point head;
     private final Vector direction;

@@ -3,6 +3,10 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
+/**
+ * this class represent a two-dimensional sphere in 3D space
+ * @author Elad and Amitay
+ */
 public class Sphere extends RadialGeometry {
     private final Point center;
 

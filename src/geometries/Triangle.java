@@ -3,7 +3,10 @@ package geometries;
 import primitives.Point;
 
 
-
+/**
+ * Triangle class represents two-dimensional triangle
+ * @author Elad and Amitay
+ */
 public class Triangle extends Polygon {
     /**
      * constructor that gets 3 points and creates the triangle

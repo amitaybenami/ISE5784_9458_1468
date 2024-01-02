@@ -4,6 +4,10 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+/**
+ * this class represents a tube
+ * @author Elad and Amitay
+ */
 public class Tube extends RadialGeometry {
     private final Ray axis;
 

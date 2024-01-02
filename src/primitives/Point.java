@@ -4,9 +4,9 @@ import java.util.Objects;
 
 /**
  * this class will present a point in the space and it will serve all primitives
+ * @author Elad and Amitay
  */
 public class Point {
-    public static final Point ZERO = new Point(Double3.ZERO); //should be deleted
     /**
      * the value of the point
      */
@@ -48,7 +48,7 @@ public class Point {
      * @param p right hand side operand for addition
      * @return result of addition
      */
-    public Point add(Point p) {
+    public Point add(Vector p) {
         return new Point(xyz.add(p.xyz));
     }
 
