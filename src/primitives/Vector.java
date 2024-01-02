@@ -35,45 +35,45 @@ public class Vector extends Point {
     /**
      * Add two vectors into a new point by adding their Double3 fields
      *
-     * @param v right hand side operand for addition
+     * @param vector right hand side operand for addition
      * @return result of addition
      */
 
     @Override
-    public Vector add(Vector v) {
-        return new Vector(xyz.add(v.xyz));
+    public Vector add(Vector vector) {
+        return new Vector(xyz.add(vector.xyz));
     }
 
 
     /**
      * multiply the vector by a scalar
      *
-     * @param scal is the scalar
+     * @param scalar is the scalar
      * @return result of scaling
      */
 
-    public Vector scale(double scal) {
-        return new Vector(xyz.scale((scal)));
+    public Vector scale(double scalar) {
+        return new Vector(xyz.scale((scalar)));
     }
 
     /**
      * multiply the vector with another vector
      *
-     * @param v is the other vector
+     * @param vector is the other vector
      * @return result of multiplying
      */
-    public double dotProduct(Vector v) {
-        return v.xyz.d1 * xyz.d1 + v.xyz.d2 * xyz.d2 + v.xyz.d3 * xyz.d3;
+    public double dotProduct(Vector vector) {
+        return vector.xyz.d1 * xyz.d1 + vector.xyz.d2 * xyz.d2 + vector.xyz.d3 * xyz.d3;
     }
 
     /**
      * multiply the vector with another vector
      *
-     * @param v is the other vector
+     * @param vector is the other vector
      * @return result of multiplying
      */
-    public Vector crossProduct(Vector v) {
-        return new Vector(xyz.d2 * v.xyz.d3 - xyz.d3 * v.xyz.d2, xyz.d3 * v.xyz.d1 - xyz.d1 * v.xyz.d3, xyz.d1 * v.xyz.d2 - xyz.d2 * v.xyz.d1);
+    public Vector crossProduct(Vector vector) {
+        return new Vector(xyz.d2 * vector.xyz.d3 - xyz.d3 * vector.xyz.d2, xyz.d3 * vector.xyz.d1 - xyz.d1 * vector.xyz.d3, xyz.d1 * vector.xyz.d2 - xyz.d2 * vector.xyz.d1);
     }
 
     /**
