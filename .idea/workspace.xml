@@ -4,23 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f366df0c-49aa-4df9-ad8d-fea415f0a857" name="Changes" comment="stage1">
-      <change afterPath="$PROJECT_DIR$/unittests/geometries/PolygonTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unittests/primitives/PointTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/unittests/primitives/VectorTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ISE5784_9458_1468.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ISE5784_9458_1468.iml" afterDir="false" />
+    <list default="true" id="f366df0c-49aa-4df9-ad8d-fea415f0a857" name="Changes" comment="little fixes">
+      <change afterPath="$PROJECT_DIR$/unittests/geometries/CylinderTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unittests/geometries/PlaneTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unittests/geometries/SphereTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unittests/geometries/TriangleTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unittests/geometries/TubeTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/geometries/Cylinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Cylinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/geometries/Geometry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Geometry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/geometries/Plane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Plane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/geometries/RadialGeometry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/RadialGeometry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/geometries/Sphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Sphere.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/geometries/Triangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Triangle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/geometries/Tube.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/geometries/Tube.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/primitives/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Point.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/primitives/Ray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Ray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/primitives/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/primitives/Vector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unittests/primitives/PointTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/unittests/primitives/PointTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +34,12 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProblemsViewState">
@@ -60,7 +63,17 @@
     "Application.java.executor": "Run",
     "Application.main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.CylinderTests.executor": "Run",
+    "JUnit.CylinderTests.getNormal.executor": "Run",
+    "JUnit.PlaneTests.executor": "Run",
+    "JUnit.PlaneTests.getNormal.executor": "Run",
+    "JUnit.PointTest.add.executor": "Run",
+    "JUnit.PointTest.executor": "Run",
+    "JUnit.PolygonTests.executor": "Run",
     "JUnit.PolygonTests.testConstructor.executor": "Run",
+    "JUnit.SphereTests.executor": "Run",
+    "JUnit.TriangleTests.executor": "Run",
+    "JUnit.TubeTests.executor": "Run",
     "JUnit.VectorTests.executor": "Run",
     "JUnit.VectorTests.testConstructor.executor": "Run",
     "JUnit.VectorTests.testDotProduct.executor": "Run",
@@ -101,10 +114,11 @@
       <recent name="primitives" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="geometries" />
       <recent name="primitives" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.PointTest.add">
+  <component name="RunManager" selected="JUnit.All in ISE5784_9458_1468">
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="test.Main" />
       <module name="ISE5784_9458_1468" />
@@ -112,7 +126,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PointTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="All in ISE5784_9458_1468" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5784_9458_1468" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PointTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE5784_9458_1468" />
       <extension name="coverage">
         <pattern>
@@ -121,24 +143,38 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="primitives" />
-      <option name="MAIN_CLASS_NAME" value="primitives.PointTest" />
+      <option name="MAIN_CLASS_NAME" value="primitives.PointTests" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PointTest.add" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TriangleTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE5784_9458_1468" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="primitives.*" />
+          <option name="PATTERN" value="geometries.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="primitives" />
-      <option name="MAIN_CLASS_NAME" value="primitives.PointTest" />
-      <option name="METHOD_NAME" value="add" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="geometries" />
+      <option name="MAIN_CLASS_NAME" value="geometries.TriangleTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TubeTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5784_9458_1468" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="geometries.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="geometries" />
+      <option name="MAIN_CLASS_NAME" value="geometries.TubeTests" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -158,45 +194,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="VectorTests.testDotProduct" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ISE5784_9458_1468" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="primitives.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="primitives" />
-      <option name="MAIN_CLASS_NAME" value="primitives.VectorTests" />
-      <option name="METHOD_NAME" value="testDotProduct" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="VectorTests.testSubtract" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ISE5784_9458_1468" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="primitives.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="primitives" />
-      <option name="MAIN_CLASS_NAME" value="primitives.VectorTests" />
-      <option name="METHOD_NAME" value="testSubtract" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.PointTest.add" />
-        <item itemvalue="JUnit.PointTest" />
+        <item itemvalue="JUnit.All in ISE5784_9458_1468" />
         <item itemvalue="JUnit.VectorTests" />
-        <item itemvalue="JUnit.VectorTests.testDotProduct" />
-        <item itemvalue="JUnit.VectorTests.testSubtract" />
+        <item itemvalue="JUnit.PointTests" />
+        <item itemvalue="JUnit.TubeTests" />
+        <item itemvalue="JUnit.TriangleTests" />
       </list>
     </recent_temporary>
   </component>
@@ -221,7 +225,7 @@
       <workItem from="1703588350258" duration="1554000" />
       <workItem from="1703601406497" duration="2076000" />
       <workItem from="1703680313025" duration="105000" />
-      <workItem from="1704060703542" duration="11328000" />
+      <workItem from="1704060703542" duration="21585000" />
     </task>
     <task id="LOCAL‎-00001" summary="sss">
       <option name="closed" value="true" />
@@ -263,7 +267,31 @@
       <option name="project" value="LOCAL‎" />
       <updated>1703588721444</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL‎-00006" summary="VectorTests, PointTest, PolygonTests">
+      <option name="closed" value="true" />
+      <created>1704218380824</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL‎-00006" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1704218380824</updated>
+    </task>
+    <task id="LOCAL‎-00007" summary="little fixes">
+      <option name="closed" value="true" />
+      <created>1704218419251</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL‎-00007" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1704218419251</updated>
+    </task>
+    <task id="LOCAL‎-00008" summary="little fixes">
+      <option name="closed" value="true" />
+      <created>1704222887128</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL‎-00008" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1704222887128</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,7 +303,9 @@
     <MESSAGE value="sssw" />
     <MESSAGE value="a" />
     <MESSAGE value="stage1" />
-    <option name="LAST_COMMIT_MESSAGE" value="stage1" />
+    <MESSAGE value="VectorTests, PointTest, PolygonTests" />
+    <MESSAGE value="little fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="little fixes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

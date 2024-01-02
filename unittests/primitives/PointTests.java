@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * unit tests for {@link Point}
  * @author Elad and Amitay
  */
-class PointTest {
+class PointTests {
 
     /**
      * Delta value for accuracy when comparing the numbers of type 'double' in
