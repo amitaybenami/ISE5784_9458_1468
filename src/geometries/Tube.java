@@ -5,6 +5,8 @@ import primitives.Ray;
 import primitives.Util;
 import primitives.Vector;
 
+import java.util.List;
+
 /**
  * this class represents a tube
  * @author Elad and Amitay
@@ -33,5 +35,10 @@ public class Tube extends RadialGeometry {
         //O is the parallel point on the axis
         Point O = axis.getHead().add(axis.getDirection().scale(t));
         return point.subtract(O).normalize();
+    }
+
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return null;
     }
 }

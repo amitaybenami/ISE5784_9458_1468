@@ -7,7 +7,7 @@ import primitives.Vector;
  * this interface is a general interface for every geometric object
  * @author Elad and Amitay
  */
-public interface Geometry {
+public interface Geometry extends Intersectable{
     /**
      * returns the normal vector to the geometry object from a given point
      *
