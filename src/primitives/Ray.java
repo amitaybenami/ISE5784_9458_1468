@@ -33,7 +33,7 @@ public class Ray {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Ray ray)) return false;
-        return Objects.equals(head, ray.head) && Objects.equals(direction, ray.direction);
+        return head.equals(ray.head) && direction.equals(ray.direction);
     }
 
     @Override

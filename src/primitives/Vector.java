@@ -82,7 +82,7 @@ public class Vector extends Point {
      * @return length of the vector squared
      */
     public double lengthSquared() {
-        return dotProduct(this);
+        return xyz.d1* xyz.d1 + xyz.d2* xyz.d2 + xyz.d3* xyz.d3;
     }
 
     @Override
@@ -106,7 +106,7 @@ public class Vector extends Point {
      * @return the vector normalized
      */
     public Vector normalize() {
-        return scale(1 / length());
+        return new Vector(xyz.reduce(length()));
     }
 
     @Override
