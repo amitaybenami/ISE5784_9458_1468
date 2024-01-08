@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f366df0c-49aa-4df9-ad8d-fea415f0a857" name="Changes" comment="Intersectable and findIntersections declaration">
+    <list default="true" id="f366df0c-49aa-4df9-ad8d-fea415f0a857" name="Changes" comment="getNormal(Point) function">
+      <change beforePath="$PROJECT_DIR$/.idea/ISE5784_9458_1468.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ISE5784_9458_1468.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unittests/geometries/SphereTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/unittests/geometries/SphereTests.java" afterDir="false" />
-    </list>
-    <list id="1d267a6d-2835-49ce-aa18-29ea241c5fa4" name="Changes by elade" comment="Changes by elade">
-      <change beforePath="$PROJECT_DIR$/unittests/geometries/SphereTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/unittests/geometries/SphereTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unittests/geometries/PlaneTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/unittests/geometries/PlaneTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,26 +17,14 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
         <option value="JUnit5 Test Class" />
-        <option value="Interface" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/unittests/geometries/SphereTests.java">
-      <ranges>
-        <range start1="5" end1="5" start2="5" end2="9" changelist="f366df0c-49aa-4df9-ad8d-fea415f0a857" />
-        <range start1="7" end1="7" start2="11" end2="12" changelist="1d267a6d-2835-49ce-aa18-29ea241c5fa4" />
-        <range start1="10" end1="10" start2="15" end2="16" changelist="f366df0c-49aa-4df9-ad8d-fea415f0a857" />
-        <range start1="20" end1="21" start2="26" end2="29" changelist="f366df0c-49aa-4df9-ad8d-fea415f0a857" />
-        <range start1="22" end1="23" start2="30" end2="31" changelist="f366df0c-49aa-4df9-ad8d-fea415f0a857" />
-        <range start1="25" end1="28" start2="33" end2="113" changelist="f366df0c-49aa-4df9-ad8d-fea415f0a857" />
-      </ranges>
-    </file>
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
@@ -54,55 +40,54 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.Main.executor": "Run",
-    "Application.java.executor": "Run",
-    "Application.main.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.All in ISE5784_9458_1468.executor": "Run",
-    "JUnit.CylinderTests.executor": "Run",
-    "JUnit.CylinderTests.getNormal.executor": "Run",
-    "JUnit.PlaneTests.executor": "Run",
-    "JUnit.PlaneTests.getNormal.executor": "Run",
-    "JUnit.PointTest.add.executor": "Run",
-    "JUnit.PointTest.executor": "Run",
-    "JUnit.PointTests.executor": "Run",
-    "JUnit.PolygonTests.executor": "Run",
-    "JUnit.PolygonTests.testConstructor.executor": "Run",
-    "JUnit.SphereTests.executor": "Run",
-    "JUnit.SphereTests.testFindIntersections.executor": "Run",
-    "JUnit.TriangleTests.executor": "Run",
-    "JUnit.TubeTests.executor": "Run",
-    "JUnit.VectorTests.executor": "Run",
-    "JUnit.VectorTests.testConstructor.executor": "Run",
-    "JUnit.VectorTests.testDotProduct.executor": "Run",
-    "JUnit.VectorTests.testSubtract.executor": "Run",
-    "Repository.Attach.Annotations": "true",
-    "Repository.Attach.JavaDocs": "true",
-    "Repository.Attach.Sources": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "create.test.in.the.same.root": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "fileTemplates",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.java.executor&quot;: &quot;Run&quot;,
+    &quot;Application.main.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.All in ISE5784_9458_1468.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CylinderTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CylinderTests.getNormal.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PlaneTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PlaneTests.getNormal.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PointTest.add.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PointTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PointTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PolygonTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PolygonTests.testConstructor.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SphereTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TriangleTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TubeTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.VectorTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.VectorTests.testConstructor.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.VectorTests.testDotProduct.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.VectorTests.testSubtract.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;true&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;fileTemplates&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="QodanaCIConfigService">
     <option name="ciType" value="GITHUB" />
     <option name="path" value="$PROJECT_DIR$/.github/workflows/qodana_code_quality.yml" />
@@ -115,11 +100,11 @@
       <recent name="primitives" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
-      <recent name="primitives" />
       <recent name="geometries" />
+      <recent name="primitives" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.SphereTests.testFindIntersections">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="test.Main" />
       <module name="ISE5784_9458_1468" />
@@ -150,7 +135,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SphereTests.testFindIntersections" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TriangleTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE5784_9458_1468" />
       <extension name="coverage">
         <pattern>
@@ -159,9 +144,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="geometries" />
-      <option name="MAIN_CLASS_NAME" value="geometries.SphereTests" />
-      <option name="METHOD_NAME" value="testFindIntersections" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="geometries.TriangleTests" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -198,18 +182,18 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.SphereTests.testFindIntersections" />
         <item itemvalue="JUnit.All in ISE5784_9458_1468" />
         <item itemvalue="JUnit.VectorTests" />
         <item itemvalue="JUnit.PointTests" />
         <item itemvalue="JUnit.TubeTests" />
+        <item itemvalue="JUnit.TriangleTests" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-19.0.2-corretto-19.0.2-3183f394aec4-f0552fc0" />
+        <option value="jdk-19.0.2-corretto-19.0.2-f644763e9732-1e16d6ec" />
       </set>
     </attachedChunks>
   </component>
@@ -229,8 +213,8 @@
       <workItem from="1703680313025" duration="105000" />
       <workItem from="1704060703542" duration="22283000" />
       <workItem from="1704622834151" duration="1496000" />
-      <workItem from="1704624564888" duration="2415000" />
-      <workItem from="1704659908091" duration="4948000" />
+      <workItem from="1704624564888" duration="746000" />
+      <workItem from="1704732233622" duration="5276000" />
     </task>
     <task id="LOCAL‎-00001" summary="sss">
       <option name="closed" value="true" />
@@ -312,23 +296,7 @@
       <option name="project" value="LOCAL‎" />
       <updated>1704231283375</updated>
     </task>
-    <task id="LOCAL‎-00011" summary="little fixes">
-      <option name="closed" value="true" />
-      <created>1704625631819</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL‎-00011" />
-      <option name="project" value="LOCAL‎" />
-      <updated>1704625631819</updated>
-    </task>
-    <task id="LOCAL‎-00012" summary="Intersectable and findIntersections declaration">
-      <option name="closed" value="true" />
-      <created>1704660685172</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL‎-00012" />
-      <option name="project" value="LOCAL‎" />
-      <updated>1704660685172</updated>
-    </task>
-    <option name="localTasksCounter" value="13" />
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -341,12 +309,10 @@
     <MESSAGE value="a" />
     <MESSAGE value="stage1" />
     <MESSAGE value="VectorTests, PointTest, PolygonTests" />
+    <MESSAGE value="little fixes" />
     <MESSAGE value="geometries' tests" />
     <MESSAGE value="getNormal(Point) function" />
-    <MESSAGE value="little fixes" />
-    <MESSAGE value="Changes by elade" />
-    <MESSAGE value="Intersectable and findIntersections declaration" />
-    <option name="LAST_COMMIT_MESSAGE" value="Intersectable and findIntersections declaration" />
+    <option name="LAST_COMMIT_MESSAGE" value="getNormal(Point) function" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
