@@ -37,7 +37,7 @@ class PlaneTests {
 
     /**Test method for {@link geometries.Plane#getNormal(primitives.Point)}*/
     @Test
-    void getNormal() {
+    void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
         // TC01: usual point
         assertEquals(1,new Plane(new Point(1,2,3),new Point(2,3,8),new Point(-1,2,7)).getNormal(new Point(1,4,17)).length(),DELTA,"ERROR: the normal vector is not a unit vector");
@@ -45,6 +45,7 @@ class PlaneTests {
         assertTrue(Util.isZero(new Plane(new Point(1,2,3),new Point(2,3,8),new Point(-1,2,7)).getNormal(new Point(1,4,17)).dotProduct(new Vector(-2,0,4))),"ERROR: the normal vector is not orthogonal to one of the vectors on the plane");
     }
 
+    /**Test method for {@link geometries.Plane#findIntersections(Ray)}*/
     @Test
     public void testFindIntersections() {
         final Point p200 = new Point(2,0,0);
