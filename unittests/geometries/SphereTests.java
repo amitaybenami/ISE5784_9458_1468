@@ -49,6 +49,7 @@ class SphereTests {
         final Vector vM3M10 = new Vector(-3, -1, 0);
         final Vector v110 = new Vector(1, 1, 0);
         final Vector v100 = new Vector(1,0,0);
+        final Vector v001 = new Vector(0,0,1);
         final Point pM100 = new Point(-1, 0, 0);
         final Point p000 = new Point(0,0,0);
         final Point p0_500 = new Point(0.5,0,0);
@@ -61,9 +62,9 @@ class SphereTests {
         assertEquals(2, result1.size(), "Wrong number of points");
         assertEquals(List.of(new Point(0.0651530771650466, 0.355051025721682, 0), new Point(1.53484692283495, 0.844948974278318, 0)), result1, "Ray crosses sphere");
         // TC03: Ray starts inside the sphere (1 point)
-        final List<Point> result3 = sphere.findIntersections(new Ray(p0_500,v310));
+        final List<Point> result3 = sphere.findIntersections(new Ray(p0_500,v001));
         assertEquals(1, result3.size(), "Wrong number of points");
-        assertEquals(List.of(new Point(1.89,0.46,0)), result3, "Ray starts inside the sphere");
+        assertEquals(List.of(new Point(0.5,0,0.8660254037844386)), result3, "Ray starts inside the sphere");
         // TC04: Ray starts after the sphere (0 points)
         assertNull(sphere.findIntersections(new Ray(pM100, vM3M10)),"Ray starts after the sphere");
         // =============== Boundary Values Tests ==================
@@ -104,6 +105,6 @@ class SphereTests {
         assertNull(sphere.findIntersections(new Ray(new Point(2,1,0),v100)),"Ray starts after the tangent point");
         // **** Group: Special cases
         // TC22: Ray's line is outside, ray is orthogonal to ray start to sphere's center line
-        assertNull(sphere.findIntersections(new Ray(pM100,new Vector(0, 0, 1))),"Ray's line is outside, ray is orthogonal to ray start to sphere's center line");
+        assertNull(sphere.findIntersections(new Ray(pM100,v001)),"Ray's line is outside, ray is orthogonal to ray start to sphere's center line");
     }
 }
