@@ -72,7 +72,7 @@ class PlaneTests {
         //TC13: Ray starts before the plane
         final List<Point> result13 = plane.findIntersections(new Ray(new Point(-1,0,0),v111));
         assertEquals(1,result13.size(),"Wrong number of points");
-        assertEquals(List.of(new Point(-0.3333333,0.66666667,0.666666667)),result13,"Ray is orthogonal to the plane and starts before it");
+        assertEquals(List.of(new Point(-0.33333333333333326,0.6666666666666667,0.6666666666666667)),result13,"Ray is orthogonal to the plane and starts before it");
         //TC14: Ray starts in the plane
         assertNull(plane.findIntersections(new Ray(p100,v111)),"Ray is orthogonal to the plane and starts in it");
         //TC15: Ray starts after the plane

@@ -56,6 +56,22 @@ public class Plane implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null;
+        //nv = cosinus of the angle between ray and normal
+        double nv = Util.alignZero(normal.dotProduct(ray.getDirection()));
+        if (Util.isZero(nv))//ray is parallel to the plane - no intersections
+            return null;
+
+        if (ray.getHead().equals(q))//ray starts at the plane's q point
+            return null;
+
+        Vector headToQ = q.subtract(ray.getHead());
+        double nHeadToQ = Util.alignZero(normal.dotProduct(headToQ));
+        if (Util.isZero(nHeadToQ))//ray starts at the plane - no intersections
+            return null;
+        //t = distance from head to intersection
+        double t = Util.alignZero(nHeadToQ/nv);
+        if (t < 0)//no intersections
+            return null;
+        return List.of(ray.getHead().add(ray.getDirection().scale(t)));
     }
 }
