@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import geometries.Polygon;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
 
 /**
  * Testing Polygons
@@ -87,4 +90,39 @@ public class PolygonTests {
                       "Polygon's normal is not orthogonal to one of the edges");
    }
 
+   /**Test method for {@link geometries.Polygon#findIntersections(primitives.Ray)}*/
+   @Test
+   void testFindIntersections() {
+      final Point p100 = new Point(1,0,0);
+      final Point p010 = new Point(0,1,0);
+      final Point p110 = new Point(1,1,0);
+      final Point p111 = new Point(1,1,1);
+      final Point pM1M10 = new Point(-1,-1,0);
+      final Point p0_70_70 = new Point(0.7,0.7,0);
+      final Vector vM0_3M0_3M1 = new Vector(-0.3,-0.3,-1);
+      final Vector vM0_7M0_7M1 = new Vector(-0.7,-0.7,-1);
+      final Vector v0_20_2M1 = new Vector(0.2,0.2,-1);
+      final Vector vM0_50M1 = new Vector(-0.5,0,-1);
+      final Vector v0_50M1 = new Vector(0.5,0,-1);
+      final  Vector v00M1 = new Vector(0,0,-1);
+      final Vector v0_5M0_5M1 = new Vector(0.5,-0.5,-1);
+      Polygon polygon = new Polygon(p010, p110,p100,pM1M10);
+      // ============ Equivalence Partitions Tests ==============
+      // TC01: Point is inside the polygon (1 point)
+      List<Point> result1 = polygon.findIntersections(new Ray(p111,vM0_3M0_3M1));
+      assertEquals(1,result1.size(),"Wrong number of points");
+      assertEquals(List.of(p0_70_70),result1,"Point is inside the triangle");
+      // **** Group: Point is outside the polygon (all tests 0 points)
+      //TC02: Point is against edge
+      assertNull(polygon.findIntersections(new Ray(p111,v0_5M0_5M1)),"Point is outside against edge");
+      //TC03: Point is against vertex
+      assertNull(polygon.findIntersections(new Ray(p111,v0_20_2M1)),"Point is outside against vertex");
+      // =============== Boundary Values Tests ==================
+      //TC11: Point is on edge (0 points)
+      assertNull(polygon.findIntersections(new Ray(p111,vM0_50M1)),"Point is on edge");
+      //TC11: Point is in vertex (0 points)
+      assertNull(polygon.findIntersections(new Ray(p111,v00M1)),"Point is in vertex");
+      //TC11: Point is on edge's continuation (0 points)
+      assertNull(polygon.findIntersections(new Ray(p111,v0_50M1)),"Point is on edge's continuation");
+   }
 }

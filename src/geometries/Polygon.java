@@ -1,11 +1,13 @@
 package geometries;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static primitives.Util.isZero;
 
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 /**
@@ -95,6 +97,28 @@ public class Polygon implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
+        List<Point> planeIntersection = plane.findIntersections(ray);
+        if (planeIntersection == null)//no intersections with the plane
+            return null;
+
+        // vectors from ray's head to vertices
+        List<Vector> vectors = new LinkedList<Vector>();
+        for (Point vertex : vertices)
+            vectors.add(vertex.subtract(ray.getHead()));
+
+
+        List<Vector> normals = new LinkedList<Vector>();
+        for (int i = 0 ; i < vectors.size();i += 1)
+            normals.add(vectors.get(i).crossProduct(vectors.get((i + 1) % vectors.size())));
+
+        //flag check if ray's direction is on the same direction with all the vectors from ray's head to vertices
+        boolean flag = true;
+        for (int i = 0 ; i < normals.size();i += 1)
+            if (!Util.compareSign(normals.get(i).dotProduct(ray.getDirection()),normals.get((i + 1) % normals.size()).dotProduct(ray.getDirection())))
+                  flag = false;
+
+        if(flag)
+            return planeIntersection;
         return null;
     }
 }
