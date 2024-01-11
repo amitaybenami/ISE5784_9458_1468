@@ -41,7 +41,7 @@ public class Sphere extends RadialGeometry {
         //d = distance from sphere's center to the closest point in the ray
         double d = Util.alignZero(Math.sqrt(headToCenter.lengthSquared() - tm*tm));
 
-        if (d >= radius || tm < 0 ) // there are no intersections
+        if (d >= radius ||( tm < 0 && headToCenter.lengthSquared() >= radius*radius)) // there are no intersections
             return null;
 
         //th = distance between intersection and the closest point in the ray to sphere's center
