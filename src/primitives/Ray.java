@@ -43,4 +43,16 @@ public class Ray {
                 ", direction=" + direction +
                 '}';
     }
+
+    /**
+     * calculates a point on the ray's line at a given distance from the head
+     * @param t the distance
+     * @return the point
+     */
+    public Point getPoint(double t){
+        if (Util.isZero(t))//point is the head
+            return head;
+
+        return head.add(direction.scale(t));
+    }
 }
