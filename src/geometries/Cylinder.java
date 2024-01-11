@@ -33,7 +33,7 @@ public class Cylinder extends Tube {
             return axis.getDirection().scale(-1).normalize();
         }
         //point is on the second base
-        if (point.equals(axis.getHead().add(axis.getDirection().scale(height)))|| Util.isZero(point.subtract(axis.getHead().add(axis.getDirection().scale(height))).dotProduct(axis.getDirection()))){
+        if (point.equals(axis.getPoint(height))|| Util.isZero(point.subtract(axis.getPoint(height)).dotProduct(axis.getDirection()))){
             return axis.getDirection().normalize();
         }
         //point is on the tube

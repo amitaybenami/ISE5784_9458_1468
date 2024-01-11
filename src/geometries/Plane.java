@@ -72,6 +72,6 @@ public class Plane implements Geometry {
         double t = Util.alignZero(nHeadToQ/nv);
         if (t < 0)//no intersections
             return null;
-        return List.of(ray.getHead().add(ray.getDirection().scale(t)));
+        return List.of(ray.getPoint(t));
     }
 }

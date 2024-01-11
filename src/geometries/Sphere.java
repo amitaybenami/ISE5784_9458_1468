@@ -33,7 +33,7 @@ public class Sphere extends RadialGeometry {
     @Override
     public List<Point> findIntersections(Ray ray) {
         if(center.equals(ray.getHead()))//ray starts at center
-            return List.of(ray.getHead().add(ray.getDirection().scale(radius)));
+            return List.of(ray.getPoint(radius));
 
         Vector headToCenter = center.subtract(ray.getHead());
         //tm = distance from ray's head to point in ray that is closest to sphere's center
@@ -48,8 +48,8 @@ public class Sphere extends RadialGeometry {
         double th = Util.alignZero(Math.sqrt(radius*radius - d*d));
 
         if (tm - th > 0)//two intersections
-            return List.of(ray.getHead().add(ray.getDirection().scale(tm-th)),ray.getHead().add(ray.getDirection().scale(tm+th)));
+            return List.of(ray.getPoint(tm-th),ray.getPoint(tm+th));
         //one intersection
-        return List.of(ray.getHead().add(ray.getDirection().scale(tm+th)));
+        return List.of(ray.getPoint(tm+th));
     }
 }

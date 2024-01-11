@@ -33,7 +33,7 @@ public class Tube extends RadialGeometry {
         //t is the distance between head to the parallel point on the axis
         Double t = point.subtract(axis.getHead()).dotProduct(axis.getDirection());
         //O is the parallel point on the axis
-        Point O = axis.getHead().add(axis.getDirection().scale(t));
+        Point O = axis.getPoint(t);
         return point.subtract(O).normalize();
     }
 
