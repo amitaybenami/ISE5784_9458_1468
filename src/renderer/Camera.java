@@ -99,7 +99,6 @@ public class Camera implements Cloneable{
 
             camera.Vto = Vto.normalize();
             camera.Vup = Vup.normalize();
-            camera.Vright = camera.Vto.crossProduct(camera.Vup);
             return this;
         }
 
@@ -135,14 +134,9 @@ public class Camera implements Cloneable{
                 throw new MissingResourceException(MISSING_RENDERING_ARGUMENT,CAMERA ,"Vto");
             if (camera.Vup == null)
                 throw new MissingResourceException(MISSING_RENDERING_ARGUMENT,CAMERA ,"Vup");
-            if (camera.Vright == null)
-                throw new MissingResourceException(MISSING_RENDERING_ARGUMENT,CAMERA ,"Vright");
             if (!Util.isZero(camera.Vto.dotProduct(camera.Vup)))
                 throw new IllegalArgumentException("Vto and Vup are not orthogonal");
-            if (!Util.isZero(camera.Vto.dotProduct(camera.Vright)))
-                throw new IllegalArgumentException("Vto and Vright are not orthogonal");
-            if (!Util.isZero(camera.Vright.dotProduct(camera.Vup)))
-                throw new IllegalArgumentException("Vright and Vup are not orthogonal");
+            camera.Vright = camera.Vto.crossProduct(camera.Vup);
             if (Util.isZero(camera.Vto.lengthSquared()-1))
                 throw new IllegalArgumentException("Vto" + MUST_BE_NORMALIZED);
             if (Util.isZero(camera.Vup.lengthSquared()-1))
