@@ -10,6 +10,10 @@ import primitives.Vector;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+/**
+ * integration tests for renderer
+ * @author Elad and Amitay
+ */
 class IntegrationTest {
 
     private static int getIntersections(Geometry geometry, Camera camera) {
