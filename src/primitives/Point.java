@@ -7,6 +7,7 @@ import java.util.Objects;
  * @author Elad and Amitay
  */
 public class Point {
+    public static final Point ZERO = new Point(Double3.ZERO);
     /**
      * the value of the point
      */
