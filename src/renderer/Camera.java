@@ -1,9 +1,6 @@
 package renderer;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Util;
-import primitives.Vector;
+import primitives.*;
 
 import java.util.MissingResourceException;
 
@@ -19,6 +16,9 @@ public class Camera implements Cloneable{
     private double width = 0.0;
     private double height = 0.0;
     private double distance = 0.0;
+
+    private ImageWriter imageWriter;
+    private RayTracerBase rayTracer;
 
     public Point getP0() {
         return p0;
@@ -81,6 +81,47 @@ public class Camera implements Cloneable{
             Pij = center;
 
         return new Ray(p0,Pij.subtract(p0));
+    }
+    /**
+     * cast ray for each pixel
+     */
+    public Camera renderImage(){
+        for (int i = 0; i < imageWriter.getNy(); i += 1)
+            for (int j = 0; j < imageWriter.getNx(); j += 1)
+                castRay(imageWriter.getNx(),imageWriter.getNy(),j, i);
+        return this;
+    }
+
+    /**
+     * prints a grid in a given color and a given interval on the image
+     * @param interval
+     * @param color
+     */
+    public Camera printGrid(int interval, Color color){
+        for (int i = 0; i < imageWriter.getNy(); i += 1)
+            for (int j = 0; j < imageWriter.getNx(); j += 1)
+                if(i % interval == 0 || j % interval == 0)
+                    imageWriter.writePixel(j,i,color);
+        return this;
+    }
+
+    /**
+     * writes to image
+     */
+    public Camera writeToImage(){
+        imageWriter.writeToImage();
+        return this;
+    }
+
+    /**
+     * construct a ray to a pixel and color the pixel in the image
+     * @param nX,nY the resolution
+     * @param column,row the pixel's indexes
+     */
+    private void castRay(int nX,int nY, int column, int row){
+        Ray ray = constructRay(nX, nY, column, row);
+        Color color = rayTracer.traceRay(ray);
+        imageWriter.writePixel(column,row, color);
     }
 
     /**
@@ -151,6 +192,26 @@ public class Camera implements Cloneable{
         }
 
         /**
+         * sets the image writer of the camera
+         * @param imageWriter
+         * @return the updated builder
+         */
+        public Builder setImageWriter(ImageWriter imageWriter){
+            camera.imageWriter = imageWriter;
+            return this;
+        }
+
+        /**
+         * sets the ray tracer of the camera
+         * @param rayTracer
+         * @return the updated builder
+         */
+        public Builder setRayTracer(RayTracerBase rayTracer){
+            camera.rayTracer = rayTracer;
+            return this;
+        }
+
+        /**
          * checks that all of camera's fields are well assigned
          * @throws MissingResourceException if a field is null or zero
          * @throws IllegalCallerException if the vectors aren't orthogonal or aren't normalized
@@ -169,6 +230,10 @@ public class Camera implements Cloneable{
                 throw new MissingResourceException(MISSING_RENDERING_ARGUMENT,CAMERA ,"Vto");
             if (camera.Vup == null)
                 throw new MissingResourceException(MISSING_RENDERING_ARGUMENT,CAMERA ,"Vup");
+            if(camera.imageWriter == null)
+                throw new MissingResourceException(MISSING_RENDERING_ARGUMENT,CAMERA,"imageWriter");
+            if(camera.rayTracer == null)
+                throw new MissingResourceException(MISSING_RENDERING_ARGUMENT,CAMERA,"rayTracer");
             // check if Vto and Vup are orthogonal
             if (Pto == null && !Util.isZero(camera.Vto.dotProduct(camera.Vup)))
                 throw new IllegalArgumentException("Vto and Vup are not orthogonal");
@@ -178,10 +243,9 @@ public class Camera implements Cloneable{
             if (!Util.isZero(camera.Vup.lengthSquared()-1))
                 throw new IllegalArgumentException("Vup" + MUST_BE_NORMALIZED);
             // setting Vright and center
-            if(Pto ==null)
-                camera.Vright = camera.Vto.crossProduct(camera.Vup);
-            else
+            if(Pto != null)
                 camera.Vto = Pto.subtract(camera.p0);
+            camera.Vright = camera.Vto.crossProduct(camera.Vup);
 
             camera.center = camera.p0.add(camera.Vto.scale(camera.distance));
             //if a field is zero
