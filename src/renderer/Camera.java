@@ -245,7 +245,7 @@ public class Camera implements Cloneable{
             //check if Pto equals P0
             if(camera.p0.equals(Pto))
                 throw new IllegalArgumentException("Pto must be different from P0");
-            // setting Vright and center
+            // setting Vright and center (Vto optionally)
             if(Pto != null)
                     camera.Vto = Pto.subtract(camera.p0);
 
