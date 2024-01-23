@@ -227,7 +227,7 @@ public class Camera implements Cloneable{
             if (camera.p0 == null)
                 throw new MissingResourceException(MISSING_RENDERING_ARGUMENT,CAMERA ,"p0");
             if (Pto == null && camera.Vto == null)
-                throw new MissingResourceException(MISSING_RENDERING_ARGUMENT,CAMERA ,"Vto");
+                throw new MissingResourceException(MISSING_RENDERING_ARGUMENT,CAMERA ,"direction (Vto or Pto)");
             if (camera.Vup == null)
                 throw new MissingResourceException(MISSING_RENDERING_ARGUMENT,CAMERA ,"Vup");
             if(camera.imageWriter == null)
