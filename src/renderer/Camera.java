@@ -68,7 +68,7 @@ public class Camera implements Cloneable{
      */
     public Ray constructRay(int nX, int nY, int j, int i){
         double y = -(i - (nY - 1.0) / 2.0) * (height / nY);
-        double x = (j - (nX - 1.0) / 2.0) * (width / nX);
+            double x = (j - (nX - 1.0) / 2.0) * (width / nX);
         //Pij - center of pixel i,j
         Point Pij;
         if (!Util.isZero(x) && !Util.isZero(y))
@@ -242,9 +242,13 @@ public class Camera implements Cloneable{
                 throw new IllegalArgumentException("Vto" + MUST_BE_NORMALIZED);
             if (!Util.isZero(camera.Vup.lengthSquared()-1))
                 throw new IllegalArgumentException("Vup" + MUST_BE_NORMALIZED);
+            //check if Pto equals P0
+            if(camera.p0.equals(Pto))
+                throw new IllegalArgumentException("Pto must be different from P0");
             // setting Vright and center
             if(Pto != null)
-                camera.Vto = Pto.subtract(camera.p0);
+                    camera.Vto = Pto.subtract(camera.p0);
+
             camera.Vright = camera.Vto.crossProduct(camera.Vup);
 
             camera.center = camera.p0.add(camera.Vto.scale(camera.distance));
