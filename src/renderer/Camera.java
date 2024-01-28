@@ -215,7 +215,6 @@ public class Camera implements Cloneable{
          * checks that all of camera's fields are well assigned
          * @throws MissingResourceException if a field is null or zero
          * @throws IllegalCallerException if the vectors aren't orthogonal or aren't normalized
-         * sets Vright and center
          * @return a clone of the object with valid values
          */
         public Camera build(){
@@ -247,7 +246,7 @@ public class Camera implements Cloneable{
                 throw new IllegalArgumentException("Pto must be different from P0");
             // setting Vright and center (Vto optionally)
             if(Pto != null)
-                    camera.Vto = Pto.subtract(camera.p0);
+                    camera.Vto = Pto.subtract(camera.p0).normalize();
 
             camera.Vright = camera.Vto.crossProduct(camera.Vup);
 

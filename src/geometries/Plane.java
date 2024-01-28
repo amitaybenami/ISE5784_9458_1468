@@ -11,7 +11,7 @@ import java.util.List;
  * this class will represent a plane in 3D space
  * @author Elad and Amitay
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
     private final Point q;
     private final Vector normal;
 
@@ -55,7 +55,7 @@ public class Plane implements Geometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         //nv = cosinus of the angle between ray and normal
         double nv = Util.alignZero(normal.dotProduct(ray.getDirection()));
         if (Util.isZero(nv))//ray is parallel to the plane - no intersections
@@ -72,6 +72,6 @@ public class Plane implements Geometry {
         double t = Util.alignZero(nHeadToQ/nv);
         if (t < 0)//no intersections
             return null;
-        return List.of(ray.getPoint(t));
+        return List.of(new GeoPoint(this,ray.getPoint(t)));
     }
 }

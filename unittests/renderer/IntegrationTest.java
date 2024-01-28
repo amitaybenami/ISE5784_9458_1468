@@ -6,6 +6,7 @@ import geometries.Triangle;
 import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Vector;
+import scene.Scene;
 
 import java.util.List;
 
@@ -29,6 +30,8 @@ class IntegrationTest {
     }
 
     Camera camera = Camera.getBuilder()
+            .setRayTracer(new SimpleRayTracer(new Scene("Test")))
+            .setImageWriter(new ImageWriter("Test", 1, 1))
             .setLocation(Point.ZERO)
             .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
             .setVpSize(3, 3)
@@ -54,6 +57,8 @@ class IntegrationTest {
         //TC02: maximum intersections (18 points)
         Sphere sphere2 = new Sphere(2.5, new Point(0, 0, -2.5));
         camera = Camera.getBuilder()
+                .setRayTracer(new SimpleRayTracer(new Scene("Test")))
+                .setImageWriter(new ImageWriter("Test", 1, 1))
                 .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
                 .setVpSize(3, 3)
                 .setVpDistance(1)
@@ -71,6 +76,8 @@ class IntegrationTest {
         //TC04: view plane is inside the sphere (9 points)
         Sphere sphere4 = new Sphere(4, new Point(0, 0, -1));
         camera = Camera.getBuilder()
+                .setRayTracer(new SimpleRayTracer(new Scene("Test")))
+                .setImageWriter(new ImageWriter("Test", 1, 1))
                 .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
                 .setVpSize(3, 3)
                 .setVpDistance(1)

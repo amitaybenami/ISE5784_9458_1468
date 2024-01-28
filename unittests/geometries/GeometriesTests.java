@@ -13,7 +13,7 @@ import primitives.Vector;
  */
 class GeometriesTests {
 
-    /**Test method for {@link geometries.Geometries#findIntersections(primitives.Ray)}*/
+    /**Test method for {@link Intersectable#findIntersections(Ray)}*/
     @Test
     void testFindIntersections() {
         Plane plane = new Plane(new Point(1,-5,0),new Vector(25,-27.5,-20));

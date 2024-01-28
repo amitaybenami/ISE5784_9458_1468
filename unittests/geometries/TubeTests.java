@@ -26,7 +26,7 @@ class TubeTests{
         assertEquals(new Vector(1,0,0),new Tube(3,new Ray(new Point(0,0,0),new Vector(0,0,1))).getNormal(new Point(3,0,0)),"ERROR: Tube.getNormal() doesn't work correctly when vector between point and Ray's head is orthogonal to Ray's axis");
     }
 
-    /**Test method for {@link geometries.Tube#findIntersections(Ray)}*/
+    /**Test method for {@link Intersectable#findIntersections(Ray)}*/
     @Test
     void testFindIntersections() {
         final Point p100 = new Point(1,0,0);
