@@ -85,7 +85,7 @@ public class RenderTests {
       // using the code you added in appropriate packages
       // ...
       // NB: unit tests is not the correct place to put XML parsing code
-
+      scene.setByXML("unittests/renderer/renderTestTwoColors.xml");
       camera
          .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
          .build()
