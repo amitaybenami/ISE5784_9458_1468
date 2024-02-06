@@ -167,7 +167,7 @@ public class Scene {
 
     private Color strToColor(String str){
         String[] arr = str.split(" ");
-        return new Color(new Double3(Double.parseDouble(arr[0]),Double.parseDouble(arr[1]),Double.parseDouble(arr[2])));
+        return new Color(Double.parseDouble(arr[0]),Double.parseDouble(arr[1]),Double.parseDouble(arr[2]));
     }
 
     private Vector strToVector(String str){

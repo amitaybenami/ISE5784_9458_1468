@@ -55,8 +55,8 @@ public class Plane extends Geometry {
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        //nv = cosinus of the angle between ray and normal
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        //nv = cosine of the angle between ray and normal
         double nv = Util.alignZero(normal.dotProduct(ray.getDirection()));
         if (Util.isZero(nv))//ray is parallel to the plane - no intersections
             return null;
@@ -70,7 +70,7 @@ public class Plane extends Geometry {
             return null;
         //t = distance from head to intersection
         double t = Util.alignZero(nHeadToQ/nv);
-        if (t < 0)//no intersections
+        if (t < 0 || Util.alignZero(t - maxDistance) > 0)//no intersections in the distance
             return null;
         return List.of(new GeoPoint(this,ray.getPoint(t)));
     }

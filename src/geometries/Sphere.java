@@ -2,13 +2,14 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
-import primitives.Vector;
 import primitives.Util;
+import primitives.Vector;
 
 import java.util.List;
 
 /**
  * this class represent a two-dimensional sphere in 3D space
+ *
  * @author Elad and Amitay
  */
 public class Sphere extends RadialGeometry {
@@ -31,25 +32,30 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        if(center.equals(ray.getHead()))//ray starts at center
-            return List.of(new GeoPoint(this,ray.getPoint(radius)));
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        if (center.equals(ray.getHead()))//ray starts at center
+            return List.of(new GeoPoint(this, ray.getPoint(radius)));
 
         Vector headToCenter = center.subtract(ray.getHead());
         //tm = distance from ray's head to point in ray that is closest to sphere's center
         double tm = Util.alignZero(ray.getDirection().dotProduct(headToCenter));
         //d = distance from sphere's center to the closest point in the ray
-        double d = Util.alignZero(Math.sqrt(headToCenter.lengthSquared() - tm*tm));
+        double d = Util.alignZero(Math.sqrt(headToCenter.lengthSquared() - tm * tm));
 
-        if (d >= radius ||( tm < 0 && headToCenter.lengthSquared() >= radius*radius)) // there are no intersections
+        if (d >= radius || (tm < 0 && headToCenter.lengthSquared() >= radius * radius)) // there are no intersections
             return null;
 
         //th = distance between intersection and the closest point in the ray to sphere's center
-        double th = Util.alignZero(Math.sqrt(radius*radius - d*d));
+        double th = Util.alignZero(Math.sqrt(radius * radius - d * d));
 
-        if (tm - th > 0)//two intersections
-            return List.of(new GeoPoint(this,ray.getPoint(tm-th)),new GeoPoint(this,ray.getPoint(tm+th)));
+        if (tm - th > 0 && Util.alignZero((tm - th) - maxDistance) <= 0)//two intersections
+            if (Util.alignZero(tm + th - maxDistance) > 0)
+                return List.of(new GeoPoint(this, ray.getPoint(tm - th)), new GeoPoint(this, ray.getPoint(tm + th)));
+            else return List.of(new GeoPoint(this, ray.getPoint(tm - th)));
+
         //one intersection
-        return List.of(new GeoPoint(this,ray.getPoint(tm+th)));
+        if (Util.alignZero(tm + th - maxDistance) <= 0)
+            return List.of(new GeoPoint(this, ray.getPoint(tm + th)));
+        return null;
     }
 }

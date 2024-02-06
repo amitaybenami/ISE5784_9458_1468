@@ -10,11 +10,21 @@ class ImageWriterTest {
     ImageWriter writer = new ImageWriter("test1",800,500);
     @Test
     void imageWriterTest() {
-        for (int i = 0; i < 500; i += 1) {
-            for (int j = 0; j < 800; j += 1) {
-                if(i%50 == 0 || j % 50 == 0)
-                    writer.writePixel(j,i,new Color(255,0,0));
-                else writer.writePixel(j,i,new Color(0,127.5,127.5));
+        int ny = writer.getNy();
+        int nx = writer.getNx();
+        for (int i = 0; i < ny; i += 1)
+            for (int j = 0; j < nx; j += 1) {
+                writer.writePixel(j,i,new Color(0,127.5,127.5));
+            }
+        int interval = 50;
+        for (int i = 0; i < ny; i += interval) {
+            for (int j = 0; j < nx; j += 1) {
+                writer.writePixel(j,i,new Color(255,0,0));
+            }
+        }
+        for (int i = 0; i < ny; i += 1) {
+            for (int j = 0; j < nx; j += interval) {
+                writer.writePixel(j,i,new Color(255,0,0));
             }
         }
         writer.writeToImage();

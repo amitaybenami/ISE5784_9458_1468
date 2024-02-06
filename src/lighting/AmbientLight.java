@@ -2,30 +2,35 @@ package lighting;
 
 import primitives.Color;
 import primitives.Double3;
+
 /**
- * represents the lightning at the scene
+ * represents the ambient lighting at the scene
+ *
  * @author Elad and Amitay
  */
-public class AmbientLight extends Light{
+public class AmbientLight extends Light {
     /**
      * constructor that gets intensity and Double3 type attenuation coefficient
-     * @param intensity
-     * @param kA Double3 type attenuation coefficient
+     *
+     * @param intensity the intensity of the light
+     * @param kA        Double3 type attenuation coefficient
      */
-    public AmbientLight(Color intensity, Double3 kA){
+    public AmbientLight(Color intensity, Double3 kA) {
         super(intensity.scale(kA));
     }
+
     /**
      * constructor that gets intensity and Double type attenuation coefficient
-     * @param intensity
-     * @param kA Double type attenuation coefficient
+     *
+     * @param intensity the intensity of the light
+     * @param kA        Double type attenuation coefficient
      */
-    public AmbientLight(Color intensity, Double kA){
+    public AmbientLight(Color intensity, Double kA) {
         super(intensity.scale(kA));
     }
 
 
     //solid black lightning
-    public final static AmbientLight NONE = new AmbientLight(Color.BLACK,0d);
+    public final static AmbientLight NONE = new AmbientLight(Color.BLACK, 0d);
 
 }

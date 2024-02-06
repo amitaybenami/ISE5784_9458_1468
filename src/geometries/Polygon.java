@@ -1,14 +1,14 @@
 package geometries;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import static primitives.Util.isZero;
-
 import primitives.Point;
 import primitives.Ray;
 import primitives.Util;
 import primitives.Vector;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static primitives.Util.isZero;
 
 /**
  * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
@@ -96,8 +96,8 @@ public class Polygon extends Geometry {
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        List<Point> planeIntersection = plane.findIntersections(ray);
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        List<Point> planeIntersection = plane.findIntersections(ray, maxDistance);
         if (planeIntersection == null)//no intersections with the plane
             return null;
 
@@ -108,17 +108,17 @@ public class Polygon extends Geometry {
 
 
         List<Vector> normals = new LinkedList<Vector>();
-        for (int i = 0 ; i < vectors.size();i += 1)
+        for (int i = 0; i < vectors.size(); i += 1)
             normals.add(vectors.get(i).crossProduct(vectors.get((i + 1) % vectors.size())));
 
         //flag check if ray's direction is on the same direction with all the vectors from ray's head to vertices
         boolean flag = true;
-        for (int i = 0 ; i < normals.size();i += 1)
-            if (!Util.compareSign(normals.get(i).dotProduct(ray.getDirection()),normals.get((i + 1) % normals.size()).dotProduct(ray.getDirection())))
-                  flag = false;
+        for (int i = 0; i < normals.size(); i += 1)
+            if (!Util.compareSign(normals.get(i).dotProduct(ray.getDirection()), normals.get((i + 1) % normals.size()).dotProduct(ray.getDirection())))
+                flag = false;
 
-        if(flag)
-            return List.of(new GeoPoint(this,planeIntersection.get(0)));
+        if (flag)
+            return List.of(new GeoPoint(this, planeIntersection.get(0)));
         return null;
     }
 }

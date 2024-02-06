@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * this class represents a tube
+ *
  * @author Elad and Amitay
  */
 public class Tube extends RadialGeometry {
@@ -31,14 +32,14 @@ public class Tube extends RadialGeometry {
         if (Util.isZero(point.subtract(axis.getHead()).dotProduct(axis.getDirection())))
             return point.subtract(axis.getHead()).normalize();
         //t is the distance between head to the parallel point on the axis
-        Double t = point.subtract(axis.getHead()).dotProduct(axis.getDirection());
+        double t = point.subtract(axis.getHead()).dotProduct(axis.getDirection());
         //O is the parallel point on the axis
         Point O = axis.getPoint(t);
         return point.subtract(O).normalize();
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         return null;
     }
 }

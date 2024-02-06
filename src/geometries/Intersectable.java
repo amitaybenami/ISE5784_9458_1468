@@ -12,13 +12,21 @@ import java.util.Objects;
  */
 public abstract class Intersectable {
     /**
-     * returns list of the intersection points of the object with a given ray
+     * returns list of all the intersection points of the object with a given ray
      * @param ray the given ray
-     * @return the list of the intersection points
+     * @return the list of the intersection points ; null if there are no intersections
      */
     public List<Point> findIntersections(Ray ray){
-
-        List<GeoPoint> points = findGeoIntersectionsHelper(ray);
+        return findIntersections(ray, Double.POSITIVE_INFINITY);
+    }
+    /**
+     * returns list of the intersection points of the object with a given ray up to a maximum distance
+     * @param ray the given ray
+     * @param maxDistance the maximum distance
+     * @return the list of the intersection points ; null if there are no intersections
+     */
+    public List<Point> findIntersections(Ray ray, double maxDistance){
+        List<GeoPoint> points = findGeoIntersectionsHelper(ray, maxDistance);
         if (points == null)
             return null;
         return points.stream().map(gp -> gp.point).toList();
@@ -39,8 +47,8 @@ public abstract class Intersectable {
 
         /**
          * simple constructor
-         * @param geometry
-         * @param point
+         * @param geometry the geometry
+         * @param point the point
          */
         public GeoPoint(Geometry geometry, Point point) {
             this.geometry = geometry;
@@ -64,14 +72,32 @@ public abstract class Intersectable {
     }
 
     /**
-     * find intersections of a ray and a geometry
-     * using NVI design pattern
-     * @param ray
-     * @return the intersections as GeoPoints
+     * find all the intersections of an intersectable with a ray
+     * @param ray the ray
+     * @return list of the intersections as geo points ; null if there are no intersections
      */
-    public final List<GeoPoint> findGeoIntersections(Ray ray){
-        return findGeoIntersectionsHelper(ray);
+    public final List<GeoPoint> findGeoIntersections(Ray ray) {
+        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
     }
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+
+    /**
+     * find intersections of an intersectable with a ray up to a maximum distance
+     * using NVI design pattern
+     * @param ray the ray
+     * @param maxDistance the maximum distance
+     * @return list of the intersections as geo points ; null if there are no intersections
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
+    }
+
+    /**
+     * find intersections of an intersectable with a ray up to a maximum distance
+     * using NVI design pattern
+     * @param ray the ray
+     * @param maxDistance the maximum distance
+     * @return list of the intersections as geo points ; null if there are no intersections
+     */
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 
 }

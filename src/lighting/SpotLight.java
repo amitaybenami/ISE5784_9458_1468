@@ -5,7 +5,7 @@ import primitives.Point;
 import primitives.Vector;
 
 public class SpotLight extends PointLight{
-    private Vector direction;
+    private final Vector direction;
     private int narrowBeam = 1;
 
     @Override
@@ -33,9 +33,9 @@ public class SpotLight extends PointLight{
 
     /**
      * simple constructor
-     * @param intensity
-     * @param position
-     * @param direction
+     * @param intensity the intensity
+     * @param position the position
+     * @param direction the direction vector
      */
     public SpotLight(Color intensity, Point position, Vector direction) {
         super(intensity, position);
@@ -47,7 +47,7 @@ public class SpotLight extends PointLight{
         double deflection =  getL(p).dotProduct(direction);
         double max = deflection > 0 ? deflection : 0;
         if (deflection > 0)
-            for(int i = 0; i<narrowBeam;i++)
+            for(int i = 1; i<narrowBeam;i++)
                 max *= deflection;
         return super.getIntensity(p).scale(max);
     }

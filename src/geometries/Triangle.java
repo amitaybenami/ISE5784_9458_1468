@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Triangle class represents two-dimensional triangle
+ *
  * @author Elad and Amitay
  */
 
@@ -26,8 +27,8 @@ public class Triangle extends Polygon {
     }
 
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        List<Point> planeIntersection = plane.findIntersections(ray);
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        List<Point> planeIntersection = plane.findIntersections(ray, maxDistance);
         if (planeIntersection == null)//no intersections with the plane
             return null;
         // vectors from ray's head to vertices
@@ -40,10 +41,10 @@ public class Triangle extends Polygon {
         Vector n3 = v3.crossProduct(v1).normalize();
 
         //if plane's intersection is inside the triangle
-        if(Util.compareSign(ray.getDirection().dotProduct(n1),ray.getDirection().dotProduct(n2)) &&
-        Util.compareSign(ray.getDirection().dotProduct(n2),ray.getDirection().dotProduct(n3)) &&
-        Util.compareSign(ray.getDirection().dotProduct(n3),ray.getDirection().dotProduct(n1)))
-            return List.of(new GeoPoint(this,planeIntersection.get(0)));
+        if (Util.compareSign(ray.getDirection().dotProduct(n1), ray.getDirection().dotProduct(n2)) &&
+                Util.compareSign(ray.getDirection().dotProduct(n2), ray.getDirection().dotProduct(n3)) &&
+                Util.compareSign(ray.getDirection().dotProduct(n3), ray.getDirection().dotProduct(n1)))
+            return List.of(new GeoPoint(this, planeIntersection.get(0)));
 
         return null;
     }

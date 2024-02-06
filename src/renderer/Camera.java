@@ -86,9 +86,12 @@ public class Camera implements Cloneable{
      * cast ray for each pixel
      */
     public Camera renderImage(){
-        for (int i = 0; i < imageWriter.getNy(); i += 1)
-            for (int j = 0; j < imageWriter.getNx(); j += 1)
-                castRay(imageWriter.getNx(),imageWriter.getNy(),j, i);
+        int ny = imageWriter.getNy();
+        int nx = imageWriter.getNx();
+        for (int i = 0; i < ny; i += 1) {
+            for (int j = 0; j < nx; j += 1)
+                castRay(nx, ny,j, i);
+        }
         return this;
     }
 
@@ -98,10 +101,17 @@ public class Camera implements Cloneable{
      * @param color
      */
     public Camera printGrid(int interval, Color color){
-        for (int i = 0; i < imageWriter.getNy(); i += 1)
-            for (int j = 0; j < imageWriter.getNx(); j += 1)
-                if(i % interval == 0 || j % interval == 0)
+        int ny = imageWriter.getNy();
+        int nx = imageWriter.getNx();
+
+        for (int i = 0; i < ny; i += 1)
+            for (int j = 0; j < nx; j += 50)
                     imageWriter.writePixel(j,i,color);
+
+        for (int i = 0; i < ny; i += 50)
+            for (int j = 0; j < nx; j += 1)
+                imageWriter.writePixel(j,i,color);
+
         return this;
     }
 
@@ -120,6 +130,8 @@ public class Camera implements Cloneable{
      */
     private void castRay(int nX,int nY, int column, int row){
         Ray ray = constructRay(nX, nY, column, row);
+        if (column == row && row == 550)
+            System.out.println(550);
         Color color = rayTracer.traceRay(ray);
         imageWriter.writePixel(column,row, color);
     }
