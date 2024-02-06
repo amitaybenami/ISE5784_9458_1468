@@ -49,7 +49,7 @@ public class Sphere extends RadialGeometry {
         double th = Util.alignZero(Math.sqrt(radius * radius - d * d));
 
         if (tm - th > 0 && Util.alignZero((tm - th) - maxDistance) <= 0)//two intersections
-            if (Util.alignZero(tm + th - maxDistance) > 0)
+            if (Util.alignZero(tm + th - maxDistance) <= 0)
                 return List.of(new GeoPoint(this, ray.getPoint(tm - th)), new GeoPoint(this, ray.getPoint(tm + th)));
             else return List.of(new GeoPoint(this, ray.getPoint(tm - th)));
 

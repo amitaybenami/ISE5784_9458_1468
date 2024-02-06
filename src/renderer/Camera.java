@@ -97,8 +97,8 @@ public class Camera implements Cloneable{
 
     /**
      * prints a grid in a given color and a given interval on the image
-     * @param interval
-     * @param color
+     * @param interval the interval
+     * @param color the grid's color
      */
     public Camera printGrid(int interval, Color color){
         int ny = imageWriter.getNy();
@@ -130,8 +130,6 @@ public class Camera implements Cloneable{
      */
     private void castRay(int nX,int nY, int column, int row){
         Ray ray = constructRay(nX, nY, column, row);
-        if (column == row && row == 550)
-            System.out.println(550);
         Color color = rayTracer.traceRay(ray);
         imageWriter.writePixel(column,row, color);
     }
@@ -183,8 +181,8 @@ public class Camera implements Cloneable{
 
         /**
          * set the width and the height of the view plane
-         * @param width
-         * @param height
+         * @param width the width
+         * @param height the height
          * @return the updated builder
          */
         public Builder setVpSize(double width ,double height){
@@ -195,7 +193,7 @@ public class Camera implements Cloneable{
 
         /**
          * set the distance from the camera to the view plane
-         * @param distance
+         * @param distance the distance
          * @return the updated builder
          */
         public Builder setVpDistance(double distance){
@@ -205,7 +203,7 @@ public class Camera implements Cloneable{
 
         /**
          * sets the image writer of the camera
-         * @param imageWriter
+         * @param imageWriter the image writer
          * @return the updated builder
          */
         public Builder setImageWriter(ImageWriter imageWriter){
@@ -215,7 +213,7 @@ public class Camera implements Cloneable{
 
         /**
          * sets the ray tracer of the camera
-         * @param rayTracer
+         * @param rayTracer the ray tracer
          * @return the updated builder
          */
         public Builder setRayTracer(RayTracerBase rayTracer){

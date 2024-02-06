@@ -36,24 +36,25 @@ class SphereTests {
         assertFalse(Util.compareSign(new Sphere(5, new Point(1, 2, 3)).getNormal(new Point(1, 6, 6)).dotProduct(new Point(1, 6, 6).subtract(new Point(1, 2, 3))), -1), "ERROR: the normal vector is opposite to the correct one");
     }
 
-
+    final Point p100 = new Point(1, 0, 0);
+    final Point p200 = new Point(2,0,0);
+    final Point pM100 = new Point(-1, 0, 0);
+    final Point p000 = new Point(0,0,0);
+    final Vector v110 = new Vector(1, 1, 0);
+    final Vector v310 = new Vector(3, 1, 0);
+    final Vector v100 = new Vector(1,0,0);
+    Sphere sphere = new Sphere(1d,p100);
 
     /**
      * Test method for {@link Intersectable#findIntersections(Ray)}.
      */
     @Test
     public void testFindIntersections() {
-        final Point p100 = new Point(1, 0, 0);
-        Sphere sphere = new Sphere(1d,p100);
-        final Vector v310 = new Vector(3, 1, 0);
+
         final Vector vM3M10 = new Vector(-3, -1, 0);
         final Vector v110 = new Vector(1, 1, 0);
-        final Vector v100 = new Vector(1,0,0);
         final Vector v001 = new Vector(0,0,1);
-        final Point pM100 = new Point(-1, 0, 0);
-        final Point p000 = new Point(0,0,0);
         final Point p0_500 = new Point(0.5,0,0);
-        final Point p200 = new Point(2,0,0);
         // ============ Equivalence Partitions Tests ==============
         // TC01: Ray's line is outside the sphere (0 points)
         assertNull(sphere.findIntersections(new Ray(pM100, v110)), "Ray's line out of sphere");
@@ -106,5 +107,32 @@ class SphereTests {
         // **** Group: Special cases
         // TC22: Ray's line is outside, ray is orthogonal to ray start to sphere's center line
         assertNull(sphere.findIntersections(new Ray(pM100,v001)),"Ray's line is outside, ray is orthogonal to ray start to sphere's center line");
+    }
+
+    /**
+     * Test method for {@link Sphere#findGeoIntersectionsHelper(Ray, double)}
+     */
+    @Test
+    void testFindGeoIntersectionsHelper(){
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: two points in the distance (2 points)
+        final List<Point> result1 = sphere.findIntersections(new Ray(pM100, v310),4);
+        assertEquals(2, result1.size(), "Wrong number of points");
+        assertEquals(List.of(new Point(0.0651530771650466, 0.355051025721682, 0), new Point(1.53484692283495, 0.844948974278318, 0)), result1, "Ray crosses sphere, 2 points in distance");
+        // TC02: one point in distance (1 point)
+        final List<Point> result2 = sphere.findIntersections(new Ray(pM100, v310),2);
+        assertEquals(1, result2.size(), "Wrong number of points");
+        assertEquals(List.of(new Point(0.0651530771650466, 0.355051025721682, 0)), result2, "Ray crosses sphere, 1 point in distance");
+        //TC03: no points in distance (0 points)
+        assertNull(sphere.findIntersections(new Ray(pM100, v310),1),  "Ray crosses sphere, no points in distance");
+        // =============== Boundary Values Tests ==================
+        //TC11: ray starts at sphere (1 point)
+        final List<Point> result11 = sphere.findIntersections(new Ray(p000,v110),3);
+        assertEquals(1,result11.size(),"Wrong number of points");
+        assertEquals(List.of(new Point(1,1,0)),result11,"Ray starts at sphere");
+        //TC12: point is exactly on distance (1 point)
+        final List<Point> result3 = sphere.findIntersections(new Ray(pM100,v100),1);
+        assertEquals(1, result3.size(),"Wrong number of points");
+        assertEquals(List.of(p000), result3,"point is exactly on distance");
     }
 }

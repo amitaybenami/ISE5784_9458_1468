@@ -50,23 +50,24 @@ class PlaneTests {
         assertTrue(Util.isZero(new Plane(new Point(1, 2, 3), new Point(2, 3, 8), new Point(-1, 2, 7)).getNormal(new Point(1, 4, 17)).dotProduct(new Vector(-2, 0, 4))), "ERROR: the normal vector is not orthogonal to one of the vectors on the plane");
     }
 
+    final Point p200 = new Point(2, 0, 0);
+    final Point p100 = new Point(1, 0, 0);
+    final Vector v1M10 = new Vector(1, -1, 0);
+    final Vector v111 = new Vector(1, 1, 1);
+    final Point p001 = new Point(0, 0, 1);
+    Plane plane = new Plane(p001, v111);
+
     /**
      * Test method for {@link Intersectable#findIntersections(Ray)}
      */
     @Test
     public void testFindIntersections() {
-        final Point p200 = new Point(2, 0, 0);
-        final Point p100 = new Point(1, 0, 0);
-        final Vector v1M10 = new Vector(1, -1, 0);
-        final Vector v111 = new Vector(1, 1, 1);
-        final Point p001 = new Point(0, 0, 1);
-        Plane plane = new Plane(p001, v111);
         // ============ Equivalence Partitions Tests ==============
-        //TC0: Ray intersects with the plane (1 point)
+        //TC01: Ray intersects with the plane (1 point)
         final List<Point> result0 = plane.findIntersections(new Ray(p200, new Vector(-1, 0, 0)));
         assertEquals(1, result0.size(), "Wrong number of points");
         assertEquals(result0, List.of(p100), "Ray intersects with the plane");
-        //TC1: Ray does not intersect with the plane (0 points)
+        //TC02: Ray does not intersect with the plane (0 points)
         assertNull(plane.findIntersections(new Ray(p200, new Vector(1, 0, 0))), "Ray does not intersect with the plane");
 
         // =============== Boundary Values Tests ==================
@@ -89,5 +90,24 @@ class PlaneTests {
         assertNull(plane.findIntersections(new Ray(p100, new Vector(1, 2, 0))), "Ray starts in the plane and neither parallel nor orthogonal to it");
         //TC17: Ray starts in the plane on the given point of it and neither parallel nor orthogonal to the plane
         assertNull(plane.findIntersections(new Ray(p001, new Vector(1, 2, 0))), "Ray starts in the plane on the given point of it and neither parallel nor orthogonal to the plane");
+    }
+
+    /**
+     * Test method for {@link Plane#findGeoIntersectionsHelper(Ray, double)}
+     */
+    @Test
+    void testFindGeoIntersectionsHelper() {
+        // ============ Equivalence Partitions Tests ==============
+        //TC01: point is inside the distance (1 point)
+        final List<Point> result0 = plane.findIntersections(new Ray(p200, new Vector(-1, 0, 0)),2);
+        assertEquals(1, result0.size(), "Wrong number of points");
+        assertEquals(result0, List.of(p100), "point is inside the distance");
+        //TC02: point is outside the distance (0 points)
+        assertNull(plane.findIntersections(new Ray(p200, new Vector(-1, 0, 0)),0.5), "point is outside the distance");
+        // =============== Boundary Values Tests ==================
+        //TC11: point is on distance (1 point)
+        final List<Point> result1 = plane.findIntersections(new Ray(p200, new Vector(-1, 0, 0)),1);
+        assertEquals(1, result1.size(), "Wrong number of points");
+        assertEquals(result1, List.of(p100), "point is on distance");
     }
 }
