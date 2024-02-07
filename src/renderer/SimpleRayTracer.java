@@ -57,7 +57,7 @@ public class SimpleRayTracer extends RayTracerBase {
      */
 
     private Color calcColor(GeoPoint gp, Ray ray, int level, Double3 k){
-        Color color = calcLocalEffects(gp, ray);
+        Color color = calcLocalEffects(gp, ray, k);
         return 1 == level ? color
                 : color.add(calcGlobalEffects(gp, ray, level, k));
     }
@@ -146,9 +146,10 @@ public class SimpleRayTracer extends RayTracerBase {
      *
      * @param gp  the point
      * @param ray the ray being traced
+     * @param k the attenuation factor
      * @return the color of the point taking only local effects into account
      */
-    private Color calcLocalEffects(GeoPoint gp, Ray ray) {
+    private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {
         //n = normal
         Vector n = gp.geometry.getNormal(gp.point);
         Vector v = ray.getDirection();
@@ -163,11 +164,14 @@ public class SimpleRayTracer extends RayTracerBase {
             double nl = alignZero(n.dotProduct(l));
 
             //if sign(nl) != sign(nv) the light is behind the object
-            if ((nl * nv > 0) && unshaded(gp, l, n, lightSource)) { // sign(nl) == sign(nv)
-                Color iL = lightSource.getIntensity(gp.point);
-                color = color.add(
-                        iL.scale(calcDiffusive(material, nl)
-                                .add(calcSpecular(material, n, l, nl, v))));
+            if (nl * nv > 0)  { // sign(nl) == sign(nv)
+                Double3 ktr = transparency(gp,lightSource,l,n);
+                if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
+                    Color iL = lightSource.getIntensity(gp.point).scale(ktr);
+                    color = color.add(
+                            iL.scale(calcDiffusive(material, nl)
+                                    .add(calcSpecular(material, n, l, nl, v))));
+                }
             }
         }
         return color;
@@ -218,7 +222,7 @@ public class SimpleRayTracer extends RayTracerBase {
      *
      * @param gp          the point
      * @param l           direction vector from light source to point
-     * @param n           normal vector to geometry from point
+     * @param n           normal vector of geometry from point
      * @param lightSource the light source
      * @return true if unshaded, false if shaded
      */
@@ -233,6 +237,28 @@ public class SimpleRayTracer extends RayTracerBase {
             if (Double3.ZERO.equals(intersection.geometry.getMaterial().kT))
                 return false;
         return true;
+    }
+
+    /**
+     * calculates the transparency of a point getting light from a light source
+     * @param gp the point
+     * @param lightSource the light source
+     * @param l direction vector from light source to point
+     * @param n normal vector of geometry from point
+     * @return the transparency of the point as Double3 (rgb)
+     */
+    private Double3 transparency(GeoPoint gp, LightSource lightSource, Vector l, Vector n){
+        Vector lightDirection = l.scale(-1); // from point to light source
+        Ray ray = new Ray(gp.point, lightDirection, n);
+        double lightSourceDistance = lightSource.getDistance(gp.point);
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray, lightSourceDistance);
+
+        Double3 ktr= Double3.ONE;
+        if(intersections != null)
+            for (GeoPoint intersection : intersections)
+                ktr = ktr.product(intersection.geometry.getMaterial().kT);
+
+        return ktr;
     }
 
 }
