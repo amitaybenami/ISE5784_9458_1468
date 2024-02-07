@@ -1,14 +1,19 @@
 package primitives;
 
-import java.util.List;
-import java.util.Objects;
 import geometries.Intersectable.GeoPoint;
+
+import java.util.List;
 
 /**
  * this class represents a ray in 3D space
+ *
  * @author Elad and Amitay
  */
 public class Ray {
+    /**
+     * for moving heads of secondary rays
+     */
+    private static final double DELTA = 0.1;
     private final Point head;
     private final Vector direction;
 
@@ -31,6 +36,19 @@ public class Ray {
         this.direction = direction.normalize();
     }
 
+    /**
+     * constructor for secondary rays, the head will be moved a little on the normal vector
+     *
+     * @param head      the head point
+     * @param direction the direction vector
+     * @param normal    the normal vector to the object the ray starts from
+     */
+    public Ray(Point head, Vector direction, Vector normal) {
+        this.direction = direction.normalize();
+        double nDir = this.direction.dotProduct(normal);
+        this.head = Util.isZero(nDir) ? head : nDir > 0 ? head.add(normal.scale(DELTA)) : head.add(normal.scale(-DELTA));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,10 +66,11 @@ public class Ray {
 
     /**
      * calculates a point on the ray's line at a given distance from the head
+     *
      * @param t the distance
      * @return the point
      */
-    public Point getPoint(double t){
+    public Point getPoint(double t) {
         if (Util.isZero(t))//point is the head
             return head;
 
@@ -60,10 +79,11 @@ public class Ray {
 
     /**
      * gets list of points and returns the point that closest to ray's head
+     *
      * @param points list of points
      * @return the point that closest to ray's head
      */
-    public Point findClosestPoint(List<Point> points){
+    public Point findClosestPoint(List<Point> points) {
         return points == null || points.isEmpty() ? null
                 : findClosestGeoPoint(points.stream()
                 .map(p -> new GeoPoint(null, p)).toList()
@@ -72,16 +92,24 @@ public class Ray {
 
     /**
      * gets list of geoPoints and returns the geoPoint that closest to ray's head
-     * @param points
+     *
+     * @param points the list
      */
-    public GeoPoint findClosestGeoPoint(List<GeoPoint> points){
+    public GeoPoint findClosestGeoPoint(List<GeoPoint> points) {
         if (points == null || points.isEmpty())
             return null;
 
         GeoPoint closest = points.get(0);
-        for(int i = 1; i<points.size();i+=1)
-            if(points.get(i).point.distanceSquared(head)<closest.point.distanceSquared(head))
+        double minDistance = closest.point.distanceSquared(head);
+        double distance = 0;
+
+        for (int i = 1; i < points.size(); i += 1) {
+            distance = points.get(i).point.distanceSquared(head);
+            if (distance < minDistance) {
                 closest = points.get(i);
+                minDistance = distance;
+            }
+        }
 
         return closest;
     }
