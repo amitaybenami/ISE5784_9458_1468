@@ -46,7 +46,8 @@ public class Ray {
     public Ray(Point head, Vector direction, Vector normal) {
         this.direction = direction.normalize();
         double nDir = this.direction.dotProduct(normal);
-        this.head = Util.isZero(nDir) ? head : nDir > 0 ? head.add(normal.scale(DELTA)) : head.add(normal.scale(-DELTA));
+        this.head = Util.isZero(nDir) ? head :
+                nDir > 0 ? head.add(normal.scale(DELTA)) : head.add(normal.scale(-DELTA));
     }
 
     @Override
