@@ -130,7 +130,8 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the intersection or null of there are no intersections
      */
     private GeoPoint findClosestIntersection(Ray ray) {
-        return ray.findClosestGeoPoint(scene.geometries.findGeoIntersections(ray));
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
+        return intersections == null ? null : ray.findClosestGeoPoint(intersections);
     }
 
     /**
@@ -171,7 +172,7 @@ public class SimpleRayTracer extends RayTracerBase {
             //if sign(nl) != sign(nv) the light is behind the object
             if (nl * nv > 0) { // sign(nl) == sign(nv)
                 Double3 ktr = transparency(gp, lightSource, l, n);
-                if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
+                if (ktr.product(k).greaterThan(MIN_CALC_COLOR_K)) {
                     Color iL = lightSource.getIntensity(gp.point).scale(ktr);
                     color = color.add(
                             iL.scale(calcDiffusive(material, nl)
