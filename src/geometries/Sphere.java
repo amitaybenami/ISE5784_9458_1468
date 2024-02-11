@@ -8,7 +8,7 @@ import primitives.Vector;
 import java.util.List;
 
 /**
- * this class represent a sphere in 3D space
+ * this class represents a sphere in 3D space
  *
  * @author Elad and Amitay
  */
