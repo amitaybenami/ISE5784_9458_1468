@@ -6,6 +6,7 @@ import primitives.*;
 import scene.Scene;
 
 import java.util.List;
+import java.util.spi.AbstractResourceBundleProvider;
 
 import static primitives.Util.alignZero;
 
@@ -172,7 +173,7 @@ public class SimpleRayTracer extends RayTracerBase {
             //if sign(nl) != sign(nv) the light is behind the object
             if (nl * nv > 0) { // sign(nl) == sign(nv)
                 Double3 ktr = transparency(gp, lightSource, l, n);
-                if (ktr.product(k).greaterThan(MIN_CALC_COLOR_K)) {
+                if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
                     Color iL = lightSource.getIntensity(gp.point).scale(ktr);
                     color = color.add(
                             iL.scale(calcDiffusive(material, nl)
@@ -262,9 +263,11 @@ public class SimpleRayTracer extends RayTracerBase {
 
         Double3 ktr = Double3.ONE;
         if (intersections != null)
-            for (GeoPoint intersection : intersections)
+            for (GeoPoint intersection : intersections) {
                 ktr = ktr.product(intersection.geometry.getMaterial().kT);
-
+                if (ktr == Double3.ZERO)
+                    break;
+            }
         return ktr;
     }
 
