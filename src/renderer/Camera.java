@@ -102,8 +102,21 @@ public class Camera implements Cloneable{
         Vup = upToSin.add(toCos).add(toUpTo1MCos).normalize();
         Vright = Vto.crossProduct(Vup);
     }
-    
-    
+
+    /**
+     * sets the vectors from the camera towards a given point
+     * @param Pto the direction point
+     */
+    public void setDirection(Point Pto ){
+        Vto = Pto.subtract(p0).normalize();
+        if(Vto.equals(Vector.Y) || Vto.equals(Vector.Y.scale(-1)))
+            Vright = Vector.Z;
+        else{
+            Vright = new Vector(-Vto.getZ() / Vto.getX(),0,1).normalize();
+
+        }
+        Vup = Vto.crossProduct(Vright);
+    }
     
     /**
      * cast ray for each pixel

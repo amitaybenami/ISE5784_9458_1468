@@ -5,6 +5,23 @@ package primitives;
  * @author Elad and Amitay
  */
 public class Vector extends Point {
+
+    /**
+     * constant unit vector for the x-axis
+     */
+    final static public Vector X = new Vector(1,0,0);
+
+    /**
+     * constant unit vector for the y-axis
+     */
+    final static public Vector Y = new Vector(0,1,0);
+
+    /**
+     * constant unit vector for the z-axis
+     */
+    final static public Vector Z = new Vector(0,0,1);
+
+
     /**
      * constructor that gets 3 doubles and make the matching vector
      *

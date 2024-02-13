@@ -53,6 +53,18 @@ public class Point {
         return new Point(xyz.add(p.xyz));
     }
 
+    public double getX(){
+        return xyz.d1;
+    }
+
+    public double getY(){
+        return xyz.d2;
+    }
+
+    public double getZ(){
+        return xyz.d3;
+    }
+
     /**
      * this function calculates the squared distance of the point from a given point by adding
      * the squared value of the subtraction of each number of the Double3 fields
