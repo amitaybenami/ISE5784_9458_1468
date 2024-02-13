@@ -6,6 +6,9 @@ package renderer;
 import static java.awt.Color.*;
 
 import geometries.Plane;
+import geometries.Polygon;
+import lighting.LightSource;
+import lighting.PointLight;
 import org.junit.jupiter.api.Test;
 
 import geometries.Sphere;
@@ -105,9 +108,50 @@ public class ReflectionRefractionTests {
 
    @Test
    public void impressiveTest(){
+      final Point p000 = new Point(0,0,0);
       scene.geometries.add(
-              new Plane(new Point(0,0,-2),new Vector(0,0,1))
-                      .setMaterial(new Material().setKr(1))
+              new Plane(new Point(0,0,-7),new Vector(0,0,1))
+                      .setEmission(new Color(20,20,20)).setMaterial(new Material()
+                              .setKr(1)), // the mirror
+              new Sphere(0.5,p000)
+                      .setEmission(new Color(RED)).setMaterial(new Material()
+                              .setKs(0.5).setKd(0.5).setShininess(60)), // the nose
+              new Sphere(5,p000)
+                      .setEmission(new Color(ORANGE)).setMaterial(new Material()
+                              .setKs(0.2).setKd(0.2).setShininess(30).setKt(0.6)), // the head
+              new Triangle(new Point(-2,2,0),new Point(2,2,0),new Point(0,3,0))
+                      .setEmission(new Color(RED)).setMaterial(new Material()
+                              .setKs(0.5).setKd(0.5).setShininess(60)), // the mouth
+              new Polygon(new Point(2.5,-2.5,0),new Point(1.5,-2.5,0),new Point(1.5,-1.5,0),new Point(2.5,-1.5,0))
+                      .setEmission(new Color(BLACK)).setMaterial(new Material()
+                              .setKs(0.5).setKd(0.5).setShininess(60)), // the left eye
+              new Polygon(new Point(-2.5,-2.5,0),new Point(-1.5,-2.5,0),new Point(-1.5,-1.5,0),new Point(-2.5,-1.5,0))
+                      .setEmission(new Color(BLACK)).setMaterial(new Material()
+                              .setKs(0.5).setKd(0.5).setShininess(60)), // the right eye
+              new Sphere(2.1,new Point(5,-5,0))
+                      .setEmission(new Color(ORANGE)).setMaterial(new Material()
+                              .setKs(0.5).setKd(0.5).setShininess(60)), // the left ear
+              new Sphere(2.1,new Point(-5,-5,0))
+                      .setEmission(new Color(ORANGE)).setMaterial(new Material()
+                              .setKs(0.5).setKd(0.5).setShininess(60)), // the right ear
+              new Plane(new Point(-15,0,0),new Vector(-1,-1,0))
+                      .setEmission(new Color(20,20,20)).setMaterial(new Material()
+                              .setKr(1)), // the right mirror
+              new Plane(new Point(15,0,0),new Vector(-1,1,0))
+                      .setEmission(new Color(20,20,20)).setMaterial(new Material()
+                              .setKr(1))// the left mirror
       );
+      scene.lights.add(
+              new PointLight(new Color(500,500,250),new Point(0,40,0)).setKl(0.001).setKq(0.0002));
+      scene.lights.add(
+              new SpotLight(new Color(500,500,250),new Point(2,-2,0.5),new Vector(0,0,1)).setKl(0.001).setKq(0.00004).setNarrowBeam(10));
+      scene.lights.add(
+              new SpotLight(new Color(500,500,250),new Point(-2,-2,0.5),new Vector(0,0,1)).setKl(0.001).setKq(0.00004).setNarrowBeam(10));
+      cameraBuilder.setLocation(new Point(0, 0, 100)).setVpDistance(95)
+              .setVpSize(60, 60)
+              .setImageWriter(new ImageWriter("impressive", 1000, 1000))
+              .build()
+              .renderImage()
+              .writeToImage();
    }
 }
