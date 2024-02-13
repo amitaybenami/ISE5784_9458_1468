@@ -3,6 +3,7 @@ package renderer;
 import primitives.*;
 
 import java.util.MissingResourceException;
+import java.lang.Math;
 
 /**
  * represents the camera
@@ -82,6 +83,28 @@ public class Camera implements Cloneable{
 
         return new Ray(p0,Pij.subtract(p0));
     }
+
+    /**
+     * rotates the camera on the Vto axis with angle
+     * @param angle the angle in degrees
+     * @throws IllegalStateException if the direction vectors weren't set yet
+     */
+    public void rotate(double angle){
+        double rad = Math.toRadians(angle);
+        double cos = Math.cos(rad);
+        double sin = Math.sin(rad);
+        if(Vto == null || Vup == null || Vright == null)
+            throw new IllegalStateException("you can't rotate a not fully-built camera");
+        Vector upToSin =  Vto.crossProduct(Vup).scale(sin);
+        Vector toCos = Vup.scale(cos);
+        Vector toUpTo1MCos = Vto.scale(Vto.dotProduct(Vup) * (1 - cos));
+
+        Vup = upToSin.add(toCos).add(toUpTo1MCos).normalize();
+        Vright = Vto.crossProduct(Vup);
+    }
+    
+    
+    
     /**
      * cast ray for each pixel
      */
@@ -114,6 +137,8 @@ public class Camera implements Cloneable{
 
         return this;
     }
+
+
 
     /**
      * writes to image
@@ -190,6 +215,7 @@ public class Camera implements Cloneable{
             camera.height = height;
             return this;
         }
+        
 
         /**
          * set the distance from the camera to the view plane
