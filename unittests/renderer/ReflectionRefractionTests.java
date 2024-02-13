@@ -5,6 +5,7 @@ package renderer;
 
 import static java.awt.Color.*;
 
+import geometries.Plane;
 import org.junit.jupiter.api.Test;
 
 import geometries.Sphere;
@@ -100,5 +101,13 @@ public class ReflectionRefractionTests {
          .build()
          .renderImage()
          .writeToImage();
+   }
+
+   @Test
+   public void impressiveTest(){
+      scene.geometries.add(
+              new Plane(new Point(0,0,-2),new Vector(0,0,1))
+                      .setMaterial(new Material().setKr(1))
+      );
    }
 }
