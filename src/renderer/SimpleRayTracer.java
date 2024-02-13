@@ -6,6 +6,7 @@ import primitives.*;
 import scene.Scene;
 
 import java.util.List;
+import java.util.spi.AbstractResourceBundleProvider;
 
 import static primitives.Util.alignZero;
 
@@ -40,11 +41,9 @@ public class SimpleRayTracer extends RayTracerBase {
 
     @Override
     public Color traceRay(Ray ray) {
-        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
-        if (intersections == null)
-            return scene.background;
+        GeoPoint Closest = findClosestIntersection(ray);
 
-        return calcColor(ray.findClosestGeoPoint(intersections), ray);
+        return Closest == null ? scene.background : calcColor(Closest, ray);
     }
 
     /**
@@ -132,7 +131,8 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the intersection or null of there are no intersections
      */
     private GeoPoint findClosestIntersection(Ray ray) {
-        return ray.findClosestGeoPoint(scene.geometries.findGeoIntersections(ray));
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
+        return intersections == null ? null : ray.findClosestGeoPoint(intersections);
     }
 
     /**
@@ -263,9 +263,11 @@ public class SimpleRayTracer extends RayTracerBase {
 
         Double3 ktr = Double3.ONE;
         if (intersections != null)
-            for (GeoPoint intersection : intersections)
+            for (GeoPoint intersection : intersections) {
                 ktr = ktr.product(intersection.geometry.getMaterial().kT);
-
+                if (ktr == Double3.ZERO)
+                    break;
+            }
         return ktr;
     }
 

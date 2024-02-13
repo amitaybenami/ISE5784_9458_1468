@@ -129,8 +129,6 @@ public class Camera implements Cloneable{
      * @param column,row the pixel's indexes
      */
     private void castRay(int nX,int nY, int column, int row){
-        if (250 == row && column == 250)
-            System.out.println(250);
         Ray ray = constructRay(nX, nY, column, row);
         Color color = rayTracer.traceRay(ray);
         imageWriter.writePixel(column,row, color);
