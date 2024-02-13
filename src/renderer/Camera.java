@@ -88,8 +88,9 @@ public class Camera implements Cloneable{
      * rotates the camera on the Vto axis with angle
      * @param angle the angle in degrees
      * @throws IllegalStateException if the direction vectors weren't set yet
+     * @return updated camera
      */
-    public void rotate(double angle){
+    public Camera rotate(double angle){
         double rad = Math.toRadians(angle);
         double cos = Math.cos(rad);
         double sin = Math.sin(rad);
@@ -97,17 +98,25 @@ public class Camera implements Cloneable{
             throw new IllegalStateException("you can't rotate a not fully-built camera");
         Vector upToSin =  Vto.crossProduct(Vup).scale(sin);
         Vector toCos = Vup.scale(cos);
-        Vector toUpTo1MCos = Vto.scale(Vto.dotProduct(Vup) * (1 - cos));
-
-        Vup = upToSin.add(toCos).add(toUpTo1MCos).normalize();
+        Vup = upToSin.add(toCos).normalize();
         Vright = Vto.crossProduct(Vup);
+        return this;
     }
 
     /**
      * sets the vectors from the camera towards a given point
      * @param Pto the direction point
+     * @throws IllegalStateException if the direction vectors weren't set yet
+     * @throws IllegalArgumentException if Pto is null
+     * @return updated camera
      */
-    public void setDirection(Point Pto ){
+    public Camera resetDirection(Point p0,Point Pto){
+        if(Vto == null || Vup == null || Vright == null)
+            throw new IllegalStateException("you can't rotate a not fully-built camera");
+        if(Pto == null)
+            throw new IllegalArgumentException("Pto can't be null");
+        if (p0 != null)
+             this.p0 = p0;
         Vto = Pto.subtract(p0).normalize();
         if(Vto.equals(Vector.Y) || Vto.equals(Vector.Y.scale(-1)))
             Vright = Vector.Z;
@@ -116,11 +125,22 @@ public class Camera implements Cloneable{
 
         }
         Vup = Vto.crossProduct(Vright);
+        return this;
     }
-    
+
     /**
-     * cast ray for each pixel
+     * resets the direction to a given pto from the current position of the camera
+     * @param Pto
+     * @return updated camera
      */
+    public Camera resetDirection(Point Pto){
+        return resetDirection(this.p0,Pto);
+    }
+
+
+        /**
+         * cast ray for each pixel
+         */
     public Camera renderImage(){
         int ny = imageWriter.getNy();
         int nx = imageWriter.getNx();

@@ -110,9 +110,9 @@ public class ReflectionRefractionTests {
    public void impressiveTest(){
       final Point p000 = new Point(0,0,0);
       scene.geometries.add(
-              new Plane(new Point(0,0,-7),new Vector(0,0,1))
-                      .setEmission(new Color(20,20,20)).setMaterial(new Material()
-                              .setKr(1)), // the mirror
+//              new Plane(new Point(0,0,-7),new Vector(0,0,1))
+//                      .setEmission(new Color(20,20,20)).setMaterial(new Material()
+//                              .setKr(1)), // the mirror
               new Sphere(0.5,p000)
                       .setEmission(new Color(RED)).setMaterial(new Material()
                               .setKs(0.5).setKd(0.5).setShininess(60)), // the nose
@@ -136,10 +136,10 @@ public class ReflectionRefractionTests {
                               .setKs(0.5).setKd(0.5).setShininess(60)), // the right ear
               new Plane(new Point(-15,0,0),new Vector(-1,-1,0))
                       .setEmission(new Color(20,20,20)).setMaterial(new Material()
-                              .setKr(1)), // the right mirror
-              new Plane(new Point(15,0,0),new Vector(-1,1,0))
-                      .setEmission(new Color(20,20,20)).setMaterial(new Material()
-                              .setKr(1))// the left mirror
+                              .setKr(1))// the right mirror
+//              new Plane(new Point(15,0,0),new Vector(-1,1,0))
+//                      .setEmission(new Color(20,20,20)).setMaterial(new Material()
+//                              .setKr(1))// the left mirror
       );
       scene.lights.add(
               new PointLight(new Color(500,500,250),new Point(0,40,0)).setKl(0.001).setKq(0.0002));
@@ -153,5 +153,9 @@ public class ReflectionRefractionTests {
               .build()
               .renderImage()
               .writeToImage();
+      cameraBuilder.setImageWriter(new ImageWriter("impressiveOtherAngle",1000,1000))
+              .build().resetDirection(new Point(60,60,60),new Point(0,0,0)).renderImage().writeToImage();
+      cameraBuilder.setImageWriter(new ImageWriter("impressiveRotated",1000,1000))
+              .build().rotate(30).renderImage().writeToImage();
    }
 }
