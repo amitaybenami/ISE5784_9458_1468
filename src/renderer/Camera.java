@@ -117,7 +117,7 @@ public class Camera implements Cloneable{
             throw new IllegalArgumentException("Pto can't be null");
         if (p0 != null)
              this.p0 = p0;
-        Vto = Pto.subtract(p0).normalize();
+        Vto = Pto.subtract(this.p0).normalize();
         if(Vto.equals(Vector.Y) || Vto.equals(Vector.Y.scale(-1)))
             Vright = Vector.Z;
         else{
