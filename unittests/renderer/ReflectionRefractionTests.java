@@ -117,7 +117,7 @@ public class ReflectionRefractionTests {
                       .setEmission(new Color(RED)).setMaterial(new Material()
                               .setKs(0.5).setKd(0.5).setShininess(60)), // the nose
               new Sphere(5,p000)
-                      .setEmission(new Color(ORANGE)).setMaterial(new Material()
+                      .setEmission(new Color(135,206,235)).setMaterial(new Material()
                               .setKs(0.2).setKd(0.2).setShininess(30).setKt(0.6)), // the head
               new Triangle(new Point(-2,2,0),new Point(2,2,0),new Point(0,3,0))
                       .setEmission(new Color(RED)).setMaterial(new Material()
@@ -129,10 +129,10 @@ public class ReflectionRefractionTests {
                       .setEmission(new Color(BLACK)).setMaterial(new Material()
                               .setKs(0.5).setKd(0.5).setShininess(60)), // the right eye
               new Sphere(2.1,new Point(5,-5,0))
-                      .setEmission(new Color(ORANGE)).setMaterial(new Material()
+                      .setEmission(new Color(BLUE)).setMaterial(new Material()
                               .setKs(0.5).setKd(0.5).setShininess(60)), // the left ear
               new Sphere(2.1,new Point(-5,-5,0))
-                      .setEmission(new Color(ORANGE)).setMaterial(new Material()
+                      .setEmission(new Color(BLUE)).setMaterial(new Material()
                               .setKs(0.5).setKd(0.5).setShininess(60)), // the right ear
               new Plane(new Point(-15,0,0),new Vector(-1,-1,0))
                       .setEmission(new Color(20,20,20)).setMaterial(new Material()
