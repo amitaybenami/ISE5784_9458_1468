@@ -2,6 +2,7 @@ package renderer;
 
 import primitives.*;
 
+import java.util.List;
 import java.util.MissingResourceException;
 import java.lang.Math;
 
@@ -62,16 +63,25 @@ public class Camera implements Cloneable{
     }
 
     /**
-     * construct a ray that goes through center of a given pixel
-     * @param nX,nY the resolution of the view plane
-     * @param j,i the pixel on the view plane
-     * @return the ray that goes through the center of the pixel i,j
+     * construct a ray that goes through a point
+     * @param point the point
+     * @return the ray
      */
-    public Ray constructRay(int nX, int nY, int j, int i){
+    public Ray constructRay(Point point){
+
+        return new Ray(p0,point.subtract(p0));
+    }
+
+    public Ray constructRay(int nX, int nY, int j, int i) {
+        return constructRay(getCenter(nX,nY,j,i));
+    }
+
+    private Point getCenter(int nX, int nY, int j, int i) {
         double y = -(i - (nY - 1.0) / 2.0) * (height / nY);
-            double x = (j - (nX - 1.0) / 2.0) * (width / nX);
+        double x = (j - (nX - 1.0) / 2.0) * (width / nX);
         //Pij - center of pixel i,j
         Point Pij;
+
         if (!Util.isZero(x) && !Util.isZero(y))
             Pij = center.add(Vright.scale(x).add(Vup.scale(y)));
         else if (!Util.isZero(x))
@@ -80,8 +90,7 @@ public class Camera implements Cloneable{
             Pij = center.add(Vup.scale(y));
         else
             Pij = center;
-
-        return new Ray(p0,Pij.subtract(p0));
+        return Pij;
     }
 
     /**
@@ -144,11 +153,43 @@ public class Camera implements Cloneable{
     public Camera renderImage(){
         int ny = imageWriter.getNy();
         int nx = imageWriter.getNx();
+        int amountOfSamples = imageWriter.getAmountOfSamples();
         for (int i = 0; i < ny; i += 1) {
-            for (int j = 0; j < nx; j += 1)
-                castRay(nx, ny,j, i);
+            for (int j = 0; j < nx; j += 1){
+                if (amountOfSamples != 1)
+                    castBeam(nx,ny,j,i,amountOfSamples);
+                else{
+                castRay(nx, ny,j, i);}
+            }
         }
         return this;
+    }
+
+    /**
+     * construct a ray to a pixel and color the pixel in the image
+     * @param nX,nY the resolution
+     * @param column,row the pixel's indexes
+     */
+    private void castRay(int nX,int nY, int column, int row){
+        Ray ray = constructRay(nX, nY, column, row);
+        Color color = rayTracer.traceRay(ray);
+        imageWriter.writePixel(column,row, color);
+    }
+    
+    private void castBeam(int nX, int nY, int column, int row, int amountOfSamples){
+        if (width/nX != height/nY)
+            throw new IllegalStateException("the pixels must be squared for super-sampling");
+        Blackboard blackboard = new Blackboard(getCenter(nX,nY,column,row),Vup,Vright,width/nX);
+        List<Point> list = blackboard.getPoints(amountOfSamples);
+
+        Ray ray;
+        Color color = Color.BLACK;
+        for (Point point : list){
+            ray = constructRay(point);
+            color = color.add(rayTracer.traceRay(ray));
+        }
+
+        imageWriter.writePixel(column,row, color.reduce(amountOfSamples * amountOfSamples));
     }
 
     /**
@@ -181,16 +222,10 @@ public class Camera implements Cloneable{
         return this;
     }
 
-    /**
-     * construct a ray to a pixel and color the pixel in the image
-     * @param nX,nY the resolution
-     * @param column,row the pixel's indexes
-     */
-    private void castRay(int nX,int nY, int column, int row){
-        Ray ray = constructRay(nX, nY, column, row);
-        Color color = rayTracer.traceRay(ray);
-        imageWriter.writePixel(column,row, color);
-    }
+
+
+
+
 
     /**
      * the builder of the camera

@@ -31,6 +31,8 @@ public class ImageWriter {
    private String              imageName;
    /** logger for reporting I/O failures */
    private Logger              logger      = Logger.getLogger("ImageWriter");
+   /** number of rays through each pixel*/
+   private int amountOfSamples = 1;
 
    // ***************** Constructors ********************** //
    /** Image Writer constructor accepting image name and View Plane parameters,
@@ -53,6 +55,15 @@ public class ImageWriter {
    /** View Plane X axis resolution
     * @return the amount of horizontal pixels */
    public int getNx() { return nX; }
+
+   public int getAmountOfSamples() {
+      return  amountOfSamples;
+   }
+
+   public ImageWriter setAmountOfSamples(int amountOfSamples) {
+      this.amountOfSamples = amountOfSamples;
+      return this;
+   }
 
    // ***************** Operations ******************** //
 
