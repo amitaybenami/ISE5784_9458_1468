@@ -6,7 +6,6 @@ import primitives.*;
 import scene.Scene;
 
 import java.util.List;
-import java.util.spi.AbstractResourceBundleProvider;
 
 import static primitives.Util.alignZero;
 
@@ -40,42 +39,45 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
     @Override
-    public Color traceRay(Ray ray) {
+    public Color traceRay(Ray ray, int amountOfSamples) {
         GeoPoint Closest = findClosestIntersection(ray);
 
-        return Closest == null ? scene.background : calcColor(Closest, ray);
+        return Closest == null ? scene.background : calcColor(Closest, ray, amountOfSamples);
     }
+
 
     /**
      * return the color of a given point recursively
      *
-     * @param gp    the point
-     * @param ray   the ray being traced
-     * @param level the recursive level
-     * @param k     the attenuation factor
+     * @param gp              the point
+     * @param ray             the ray being traced
+     * @param level           the recursive level
+     * @param k               the attenuation factor
+     * @param amountOfSamples the amount of samples for super-sampling
      * @return the color of the point
      */
 
-    private Color calcColor(GeoPoint gp, Ray ray, int level, Double3 k) {
-        Color color = calcLocalEffects(gp, ray, k);
+    private Color calcColor(GeoPoint gp, Ray ray, int level, Double3 k, int amountOfSamples) {
+        Color color = calcLocalEffects(gp, ray, k, amountOfSamples);
         return 1 == level ? color
-                : color.add(calcGlobalEffects(gp, ray, level, k));
+                : color.add(calcGlobalEffects(gp, ray, level, k, amountOfSamples));
     }
 
     /**
      * calculate the global effects (transparency and reflection) of light on a point
      *
-     * @param gp    the point
-     * @param ray   the ray that intersects the point
-     * @param level the recursive level
-     * @param k     the attenuation factor
+     * @param gp              the point
+     * @param ray             the ray that intersects the point
+     * @param level           the recursive level
+     * @param k               the attenuation factor
+     * @param amountOfSamples the amount of samples for super-sampling
      * @return the Color of the global effects on the point
      */
-    private Color calcGlobalEffects(GeoPoint gp, Ray ray, int level, Double3 k) {
+    private Color calcGlobalEffects(GeoPoint gp, Ray ray, int level, Double3 k, int amountOfSamples) {
         Vector n = gp.geometry.getNormal(gp.point);
         Material material = gp.geometry.getMaterial();
-        return calcColorGlobalEffect(constructRefractedRay(gp, ray, n), material.kT, level, k)
-                .add(calcColorGlobalEffect(constructReflectedRay(gp, ray, n), material.kR, level, k));
+        return calcColorGlobalEffect(constructRefractedRay(gp, ray, n), material.kT, level, k, amountOfSamples)
+                .add(calcColorGlobalEffect(constructReflectedRay(gp, ray, n), material.kR, level, k, amountOfSamples));
     }
 
     /**
@@ -110,17 +112,18 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * calculate the global effects (transparency and reflection) of light on a point
      *
-     * @param ray   the ray that intersects the point
-     * @param kx    the attenuation factor of material
-     * @param level the recursive level
-     * @param k     the reduced attenuation factor
+     * @param ray             the ray that intersects the point
+     * @param kx              the attenuation factor of material
+     * @param level           the recursive level
+     * @param k               the reduced attenuation factor
+     * @param amountOfSamples the amount of samples for super-sampling
      * @return the Color of the global effects on the point
      */
-    private Color calcColorGlobalEffect(Ray ray, Double3 kx, int level, Double3 k) {
+    private Color calcColorGlobalEffect(Ray ray, Double3 kx, int level, Double3 k, int amountOfSamples) {
         Double3 kkx = kx.product(k);
         if (kkx.lowerThan(MIN_CALC_COLOR_K)) return Color.BLACK;
         GeoPoint gp = findClosestIntersection(ray);
-        return (gp == null ? scene.background : calcColor(gp, ray, level - 1, kkx))
+        return (gp == null ? scene.background : calcColor(gp, ray, level - 1, kkx, amountOfSamples))
                 .scale(kx);
     }
 
@@ -138,12 +141,13 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * return the color of a given point
      *
-     * @param gp  the point
-     * @param ray the ray being traced
+     * @param gp              the point
+     * @param ray             the ray being traced
+     * @param amountOfSamples the amount of samples for super-sampling
      * @return the color of the point
      */
-    private Color calcColor(GeoPoint gp, Ray ray) {
-        return calcColor(gp, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K)
+    private Color calcColor(GeoPoint gp, Ray ray, int amountOfSamples) {
+        return calcColor(gp, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K, amountOfSamples)
                 .add(scene.ambientLight.getIntensity());
     }
 
@@ -151,12 +155,13 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * calculate the local effects of light on a point
      *
-     * @param gp  the point
-     * @param ray the ray being traced
-     * @param k   the attenuation factor
+     * @param gp              the point
+     * @param ray             the ray being traced
+     * @param k               the attenuation factor
+     * @param amountOfSamples the amount of samples for super-sampling
      * @return the color of the point taking only local effects into account
      */
-    private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k) {
+    private Color calcLocalEffects(GeoPoint gp, Ray ray, Double3 k, int amountOfSamples) {
         //n = normal
         Vector n = gp.geometry.getNormal(gp.point);
         Vector v = ray.getDirection();
@@ -172,7 +177,7 @@ public class SimpleRayTracer extends RayTracerBase {
 
             //if sign(nl) != sign(nv) the light is behind the object
             if (nl * nv > 0) { // sign(nl) == sign(nv)
-                Double3 ktr = transparency(gp, lightSource, l, n);
+                Double3 ktr = transparency(gp, lightSource, l, n, amountOfSamples);
                 if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
                     Color iL = lightSource.getIntensity(gp.point).scale(ktr);
                     color = color.add(
@@ -257,8 +262,21 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 transparency(GeoPoint gp, LightSource lightSource, Vector l, Vector n) {
         Vector lightDirection = l.scale(-1); // from point to light source
-        Ray ray = new Ray(gp.point, lightDirection, n);
         double lightSourceDistance = lightSource.getDistance(gp.point);
+        return getTransparencyFromPoint(gp.point, n, lightDirection, lightSourceDistance);
+    }
+
+    /**
+     * calculates the transparency and shadow from single point light source
+     *
+     * @param point          the point
+     * @param lightDirection direction vector from point to light source
+     * @param n              normal vector of geometry from point
+     * @param lightSourceDistance distance from point to light source
+     * @return the transparency of the point as Double3 (rgb)
+     */
+    private Double3 getTransparencyFromPoint(Point point, Vector n, Vector lightDirection, double lightSourceDistance) {
+        Ray ray = new Ray(point, lightDirection, n);
         List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray, lightSourceDistance);
 
         Double3 ktr = Double3.ONE;
@@ -271,4 +289,29 @@ public class SimpleRayTracer extends RayTracerBase {
         return ktr;
     }
 
+    /**
+     * calculates the transparency of a point getting light from a light source - when using soft shadow
+     *
+     * @param gp              the point
+     * @param lightSource     the light source
+     * @param l               direction vector from light source to point
+     * @param n               normal vector of geometry from point
+     * @param amountOfSamples amount of samples for super-sampling
+     * @return the transparency of the point as Double3 (rgb)
+     */
+    private Double3 transparency(GeoPoint gp, LightSource lightSource, Vector l, Vector n, int amountOfSamples) {
+        if (lightSource.getRadius() == 0)
+            return transparency(gp, lightSource, l, n);
+        Vector orthogonalV = l.createOrthogonal();
+        Blackboard blackboard = new Blackboard(lightSource.getPosition(), orthogonalV, orthogonalV.crossProduct(l), lightSource.getRadius() * 2).setCircle(true);
+        List<Point> list = blackboard.getPoints(amountOfSamples);
+        Double3 ktr = Double3.ZERO;
+        Vector lightDirection;
+        for (Point point : list) {
+            lightDirection = point.subtract(gp.point).normalize();
+            ktr = ktr.add(getTransparencyFromPoint(gp.point, n, lightDirection, gp.point.distance(point)));
+        }
+        return ktr.reduce(list.size());
+    }
 }
+

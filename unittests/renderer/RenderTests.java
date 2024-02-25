@@ -78,7 +78,7 @@ public class RenderTests {
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.2, 0.2, 0.2))); //
 
         camera
-                .setImageWriter(new ImageWriter("color render test", 1000, 1000))
+                .setImageWriter(new ImageWriter("color render test", 1000, 1000).setAmountOfSamples(9))
                 .build()
                 .renderImage()
                 .printGrid(100, new Color(WHITE))

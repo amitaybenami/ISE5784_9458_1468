@@ -9,6 +9,7 @@ import primitives.Vector;
  * @author Elad and Amitay
  */
 public interface LightSource {
+
     /**
      * gets a point and returns the intensity of this light source on the point
      * @param p the point
@@ -29,4 +30,16 @@ public interface LightSource {
      * @return distance between light source and a given point
      */
     double getDistance(Point point);
+
+    /**
+     * returns the light-source's radius
+     * @return the light-source's radius
+     */
+    public double getRadius();
+
+    /**
+     * returns the position of the light
+     * @return the position of the light
+     */
+    public Point getPosition();
 }

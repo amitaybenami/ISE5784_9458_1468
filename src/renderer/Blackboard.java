@@ -32,6 +32,11 @@ public class Blackboard {
     private double size;
 
     /**
+     * boolean variable determining if the blackboard shape is circle (otherwise its square)
+     */
+    private boolean circle = false;
+
+    /**
      * simple constructor
      * @param center - the center of the blackBoard
      * @param Vup,Vright - define the plane which the blackBoard is on
@@ -49,7 +54,7 @@ public class Blackboard {
      * @param amountOfSamples the amount of samples
      * @return the points
      */
-    public List<Point> getPoints(int amountOfSamples) {
+    private List<Point> getPointsSquare(int amountOfSamples) {
         double subPixelSize = size / amountOfSamples;
         double y, x;
         Point Pij;
@@ -71,6 +76,26 @@ public class Blackboard {
                 list.add(Pij);
             }
         return list;
+    }
+
+    public List<Point> getPoints(int amountOfSamples) {
+        if (!circle)
+            return getPointsSquare(amountOfSamples);
+
+        List<Point> listSquare = getPointsSquare((int)(amountOfSamples * 1.27324));
+
+        List<Point> list  = new ArrayList<>();
+        double radiusSquared = (size/2) * (size/2);
+        for (Point point : listSquare)
+            if(point.distanceSquared(center) < radiusSquared)
+                list.add(point);
+
+        return list;
+    }
+
+    public Blackboard setCircle(boolean circle) {
+        this.circle = circle;
+        return this;
     }
 }
 

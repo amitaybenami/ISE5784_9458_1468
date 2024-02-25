@@ -73,7 +73,9 @@ public class Camera implements Cloneable{
     }
 
     public Ray constructRay(int nX, int nY, int j, int i) {
-        return constructRay(getCenter(nX,nY,j,i));
+        Point center = getCenter(nX, nY, j, i);
+
+        return constructRay(center);
     }
 
     private Point getCenter(int nX, int nY, int j, int i) {
@@ -156,7 +158,7 @@ public class Camera implements Cloneable{
         int amountOfSamples = imageWriter.getAmountOfSamples();
         for (int i = 0; i < ny; i += 1) {
             for (int j = 0; j < nx; j += 1){
-                if (amountOfSamples != 1)
+                if (amountOfSamples != 1 && imageWriter.isAntiAliasing())
                     castBeam(nx,ny,j,i,amountOfSamples);
                 else{
                 castRay(nx, ny,j, i);}
@@ -171,25 +173,66 @@ public class Camera implements Cloneable{
      * @param column,row the pixel's indexes
      */
     private void castRay(int nX,int nY, int column, int row){
-        Ray ray = constructRay(nX, nY, column, row);
-        Color color = rayTracer.traceRay(ray);
-        imageWriter.writePixel(column,row, color);
+        Color color;
+        if(imageWriter.isFocus() && imageWriter.getFocalDistance() > 0){
+            if (width/nX != height/nY)
+                throw new IllegalStateException("the pixels must be squared for anti-aliasing");
+            color = raysThroughFocus(getCenter(nX,nY,column,row));
+            imageWriter.writePixel(column,row, color);
+        }
+        else {
+            Ray ray = constructRay(nX, nY, column, row);
+            color = rayTracer.traceRay(ray, imageWriter.getAmountOfSamples());
+            imageWriter.writePixel(column, row, color);
+        }
     }
-    
+
+    /**
+     * construct a lot of rays though a pixel and color the pixel in the image (antialiasing)
+     * @param nX,nY the resolution
+     * @param column,row the pixel's index
+     * @param amountOfSamples amount of samples for multi-sampling
+     * @throws IllegalStateException if the pixels aren't squared
+     */
     private void castBeam(int nX, int nY, int column, int row, int amountOfSamples){
         if (width/nX != height/nY)
-            throw new IllegalStateException("the pixels must be squared for super-sampling");
-        Blackboard blackboard = new Blackboard(getCenter(nX,nY,column,row),Vup,Vright,width/nX);
+            throw new IllegalStateException("the pixels must be squared for anti-aliasing");
+        Blackboard blackboard = new Blackboard(getCenter(nX,nY,column,row),Vup,Vright,width/nX).setCircle(imageWriter.isAntiAliasingCircle());
         List<Point> list = blackboard.getPoints(amountOfSamples);
 
         Ray ray;
         Color color = Color.BLACK;
         for (Point point : list){
-            ray = constructRay(point);
-            color = color.add(rayTracer.traceRay(ray));
+            if(imageWriter.isFocus() && imageWriter.getFocalDistance() > 0)
+                color = color.add(raysThroughFocus( point));
+            else {
+                ray = constructRay(point);
+                color = color.add(rayTracer.traceRay(ray, imageWriter.getAmountOfSamples()));
+            }
         }
 
         imageWriter.writePixel(column,row, color.reduce(amountOfSamples * amountOfSamples));
+    }
+
+    /**
+     * calculates the color of a pixel by multi-sampling, depth of field
+     * @param point
+     * @return
+     */
+    private Color raysThroughFocus(Point point) {
+        int nX = imageWriter.getNx();
+        int amountOfSamples = imageWriter.getAmountOfSamples();
+        Point focalPoint = point.add(Vto.scale(imageWriter.getFocalDistance()));
+        Blackboard blackboard1 = new Blackboard(point,Vup,Vright,width/ nX);
+        List<Point> list1 = blackboard1.getPoints(amountOfSamples);
+        Color color1 = Color.BLACK;
+        Ray ray1;
+        for (Point point1 : list1)
+        {
+            ray1 = new Ray(point1,focalPoint.subtract(point1));
+            color1 = color1.add(rayTracer.traceRay(ray1, imageWriter.getAmountOfSamples()));
+        }
+        return color1.reduce(amountOfSamples*  amountOfSamples);
     }
 
     /**
@@ -221,11 +264,6 @@ public class Camera implements Cloneable{
         imageWriter.writeToImage();
         return this;
     }
-
-
-
-
-
 
     /**
      * the builder of the camera

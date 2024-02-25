@@ -131,4 +131,14 @@ public class Vector extends Point {
         return "->" + super.toString();
     }
 
+    /**
+     * calculate a vector orthogonal to this vector
+     * @return a vector orthogonal to this vector
+     */
+    public Vector createOrthogonal()
+    {
+        if(Util.isZero(getY()) && Util.isZero(getZ()))
+            return Vector.Y;
+        return crossProduct(Vector.X);
+    }
 }

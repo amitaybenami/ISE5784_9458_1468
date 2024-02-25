@@ -22,7 +22,8 @@ public abstract class RayTracerBase {
     /**
      * gets a ray and return the color of the intersection point with the ray
      * @param ray
+     * @param amountOfSamples the amount of samples for super-sampling
      * @return the color of the intersection point with the ray
      */
-    public abstract Color traceRay(Ray ray);
+    public abstract Color traceRay(Ray ray, int amountOfSamples);
 }

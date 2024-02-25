@@ -14,6 +14,11 @@ public class PointLight extends Light implements LightSource{
     private double kL = 0.0;
     private double kQ = 0.0;
 
+    /**
+     * radius of the light source for soft shadows
+     */
+    double radius = 0;
+
     public PointLight setKl(double kL) {
         this.kL = kL;
         return this;
@@ -29,6 +34,15 @@ public class PointLight extends Light implements LightSource{
         return this;
     }
 
+    /**
+     *
+     * @param radius define the area for the  shadows
+     * @return updated point light
+     */
+    public PointLight setRadius(double radius){
+        this.radius = radius;
+        return this;
+    }
     /**
      * simple constructor
      * @param intensity
@@ -52,5 +66,15 @@ public class PointLight extends Light implements LightSource{
     @Override
     public double getDistance(Point point) {
         return point.distance(position);
+    }
+
+    @Override
+    public double getRadius() {
+        return radius;
+    }
+
+    @Override
+    public Point getPosition() {
+        return position;
     }
 }
