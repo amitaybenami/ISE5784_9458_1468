@@ -78,6 +78,7 @@ public class Blackboard {
         return list;
     }
 
+
     public List<Point> getPoints(int amountOfSamples) {
         if (!circle)
             return getPointsSquare(amountOfSamples);
@@ -98,4 +99,3 @@ public class Blackboard {
         return this;
     }
 }
-
