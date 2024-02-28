@@ -9,9 +9,8 @@ import primitives.Point;
 import primitives.Vector;
 import scene.Scene;
 
-import static java.awt.Color.*;
 public class AntiAliasingTest {
-    private final Scene scene = new Scene("Depth of Field Test");
+    private final Scene scene = new Scene("Anti Aliasing Test");
     private final Camera.Builder camera = Camera.getBuilder()
             .setDirection(Point.ZERO, new Vector(0, 1, 0))
             .setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
@@ -31,7 +30,7 @@ public class AntiAliasingTest {
         }
 
         camera.setImageWriter(new ImageWriter("antiAliasingTest", 400, 400)
-                        .setAmountOfSamples(9).setAntiAliasing(true))
+                        .setAmountOfSamples(9).antiAliasing())
                 .build()
                 .renderImage()
                 .writeToImage();

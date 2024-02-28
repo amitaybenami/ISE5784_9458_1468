@@ -174,7 +174,7 @@ public class Camera implements Cloneable{
      */
     private void castRay(int nX,int nY, int column, int row){
         Color color;
-        if(imageWriter.isFocus() && imageWriter.getFocalDistance() > 0){
+        if(imageWriter.getFocalDistance() > 0){
             initializeBlackBoard();
             if (width/nX != height/nY)
                 throw new IllegalStateException("the pixels must be squared for anti-aliasing");
@@ -213,7 +213,7 @@ public class Camera implements Cloneable{
         Ray ray;
         Color color = Color.BLACK;
 
-            if(imageWriter.isFocus() && imageWriter.getFocalDistance() > 0) {
+            if(imageWriter.getFocalDistance() > 0) {
                 initializeBlackBoard();
                 for (Point point : list)
                     color = color.add(raysThroughFocus(point));

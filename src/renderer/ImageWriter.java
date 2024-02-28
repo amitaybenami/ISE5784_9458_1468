@@ -41,10 +41,7 @@ public class ImageWriter {
     * boolean variable determining whether using circle blackboard in antialiasing or not
     */
    private boolean antiAliasingCircle = false;
-   /**
-    * boolean variable determining whether using focus (depth of field)
-    */
-   private boolean focus = false;
+
    /**
     * distance from view plane to focal plane (depth of field)
     */
@@ -84,8 +81,8 @@ public class ImageWriter {
       return this;
    }
 
-   public ImageWriter setAntiAliasing(boolean antiAliasing) {
-      this.antiAliasing = antiAliasing;
+   public ImageWriter antiAliasing() {
+      antiAliasing = true;
       return this;
    }
 
@@ -93,17 +90,8 @@ public class ImageWriter {
       return antiAliasingCircle;
    }
 
-   public ImageWriter setAntiAliasingCircle(boolean antiAliasingCircle) {
-      this.antiAliasingCircle = antiAliasingCircle;
-      return this;
-   }
-
-   public boolean isFocus() {
-      return focus;
-   }
-
-   public ImageWriter setFocus(boolean focus) {
-      this.focus = focus;
+   public ImageWriter antiAliasingCircle() {
+      antiAliasingCircle = true;
       return this;
    }
 
@@ -112,6 +100,8 @@ public class ImageWriter {
    }
 
    public ImageWriter setFocalDistance(double focalDistance) {
+      if(focalDistance < 0)
+         throw new IllegalArgumentException("focal plane can't be behind the view plane");
       this.focalDistance = focalDistance;
       return this;
    }
