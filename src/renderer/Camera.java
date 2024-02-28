@@ -175,6 +175,7 @@ public class Camera implements Cloneable{
     private void castRay(int nX,int nY, int column, int row){
         Color color;
         if(imageWriter.isFocus() && imageWriter.getFocalDistance() > 0){
+            initializeBlackBoard();
             if (width/nX != height/nY)
                 throw new IllegalStateException("the pixels must be squared for anti-aliasing");
             color = raysThroughFocus(getCenter(nX,nY,column,row));
@@ -186,6 +187,15 @@ public class Camera implements Cloneable{
             imageWriter.writePixel(column, row, color);
         }
     }
+
+    private void initializeBlackBoard() {
+        camBlackBoard = new Blackboard(p0,Vup,Vright,width/ imageWriter.getNx() * 8);
+        camBlackBoardList = camBlackBoard.getPoints(imageWriter.getAmountOfSamples());
+    }
+
+    private Blackboard camBlackBoard;
+
+    private List<Point> camBlackBoardList;
 
     /**
      * construct a lot of rays though a pixel and color the pixel in the image (antialiasing)
@@ -202,14 +212,19 @@ public class Camera implements Cloneable{
 
         Ray ray;
         Color color = Color.BLACK;
-        for (Point point : list){
-            if(imageWriter.isFocus() && imageWriter.getFocalDistance() > 0)
-                color = color.add(raysThroughFocus( point));
-            else {
-                ray = constructRay(point);
-                color = color.add(rayTracer.traceRay(ray, imageWriter.getAmountOfSamples()));
+
+            if(imageWriter.isFocus() && imageWriter.getFocalDistance() > 0) {
+                initializeBlackBoard();
+                for (Point point : list)
+                    color = color.add(raysThroughFocus(point));
             }
-        }
+            else {
+                for (Point point : list) {
+                    ray = constructRay(point);
+                    color = color.add(rayTracer.traceRay(ray, imageWriter.getAmountOfSamples()));
+                }
+            }
+
 
         imageWriter.writePixel(column,row, color.reduce(amountOfSamples * amountOfSamples));
     }
@@ -222,15 +237,15 @@ public class Camera implements Cloneable{
     private Color raysThroughFocus(Point point) {
         int nX = imageWriter.getNx();
         int amountOfSamples = imageWriter.getAmountOfSamples();
+
         Point focalPoint = point.add(Vto.scale(imageWriter.getFocalDistance()));
-        Blackboard blackboard1 = new Blackboard(point,Vup,Vright,width/ nX);
-        List<Point> list1 = blackboard1.getPoints(amountOfSamples);
+
         Color color1 = Color.BLACK;
         Ray ray1;
-        for (Point point1 : list1)
+        for (Point point1 : camBlackBoardList)
         {
             ray1 = new Ray(point1,focalPoint.subtract(point1));
-            color1 = color1.add(rayTracer.traceRay(ray1, imageWriter.getAmountOfSamples()));
+            color1 = color1.add(rayTracer.traceRay(ray1, amountOfSamples));
         }
         return color1.reduce(amountOfSamples*  amountOfSamples);
     }
