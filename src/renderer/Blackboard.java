@@ -35,7 +35,10 @@ public class Blackboard {
      * boolean variable determining if the blackboard shape is circle (otherwise its square)
      */
     private boolean circle = false;
-
+    /**
+     * boolean variable determining if the blackboard is using the grid method
+     */
+    private boolean grid = false;
     /**
      * simple constructor
      * @param center - the center of the blackBoard
@@ -55,6 +58,8 @@ public class Blackboard {
      * @return the points
      */
     private List<Point> getPointsSquare(int amountOfSamples) {
+        if(grid)
+            return getPointsSquareGrid(amountOfSamples);
         double subPixelSize = size / amountOfSamples;
         double y, x;
         Point Pij;
@@ -64,6 +69,30 @@ public class Blackboard {
                 y = (-(i - (amountOfSamples - 1.0) / 2.0) * subPixelSize) + (Math.random() - 0.5) * subPixelSize;
                 x = ((j - (amountOfSamples - 1.0) / 2.0) * subPixelSize) + (Math.random() - 0.5) * subPixelSize;
                 //Pij - random point in the sub-pixel i,j
+                if (!Util.isZero(x) && !Util.isZero(y))
+                    Pij = center.add(Vright.scale(x).add(Vup.scale(y)));
+                else if (!Util.isZero(x))
+                    Pij = center.add(Vright.scale(x));
+                else if (!Util.isZero(y))
+                    Pij = center.add(Vup.scale(y));
+                else
+                    Pij = center;
+
+                list.add(Pij);
+            }
+        return list;
+    }
+
+    public List<Point> getPointsSquareGrid(int amountOfSamples) {
+        double subPixelSize = size / amountOfSamples;
+        double y, x;
+        Point Pij;
+        List<Point> list = new ArrayList<>();
+        for (int i = 0; i < amountOfSamples; i++)
+            for (int j = 0; j < amountOfSamples; j++) {
+                y = (-(i - (amountOfSamples - 1.0) / 2.0) * subPixelSize);
+                x = ((j - (amountOfSamples - 1.0) / 2.0) * subPixelSize);
+                //Pij - center point in the sub-pixel i,j
                 if (!Util.isZero(x) && !Util.isZero(y))
                     Pij = center.add(Vright.scale(x).add(Vup.scale(y)));
                 else if (!Util.isZero(x))
@@ -98,4 +127,12 @@ public class Blackboard {
         this.circle = circle;
         return this;
     }
+
+    public Blackboard grid() {
+        this.grid = true;
+    return this;
+    }
+
+
+
 }

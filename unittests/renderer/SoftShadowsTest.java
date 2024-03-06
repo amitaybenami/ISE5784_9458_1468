@@ -17,7 +17,8 @@ public class SoftShadowsTest {
             .setDirection(Point.ZERO, new Vector(0, 1, 0))
             .setLocation(new Point(0, 0, 1000)).setVpDistance(500)
             .setVpSize(200, 200)
-            .setRayTracer(new SimpleRayTracer(scene));
+            .setRayTracer(new SimpleRayTracer(scene))
+            .setAmountOfSamples(9) ;
 
     @Test
     public void testSoftShadows() {
@@ -50,7 +51,7 @@ public class SoftShadowsTest {
         scene.lights.add(new PointLight(new Color(255, 255, 255), new Point(-500, 0, 500))
                 .setRadius(100)); // Set the radius of the light source to create soft shadows
 
-        camera.setImageWriter(new ImageWriter("hardShadowsTest", 400, 400).setAmountOfSamples(9))
+        camera.setImageWriter(new ImageWriter("hardShadowsTest", 400, 400))
                 .build()
                 .renderImage()
                 .writeToImage();

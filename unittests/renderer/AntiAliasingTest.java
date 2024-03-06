@@ -15,7 +15,12 @@ public class AntiAliasingTest {
             .setDirection(Point.ZERO, new Vector(0, 1, 0))
             .setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
             .setVpSize(250, 250)
-            .setRayTracer(new SimpleRayTracer(scene));
+            .setRayTracer(new SimpleRayTracer(scene))
+            .setThreadsCount(3)
+            .setAmountOfSamples(9)
+            .antiAliasing();
+
+
 
     @Test
     public void testAntiAliasing() {
@@ -29,8 +34,7 @@ public class AntiAliasingTest {
             }
         }
 
-        camera.setImageWriter(new ImageWriter("antiAliasingTest", 400, 400)
-                        .setAmountOfSamples(9).antiAliasing())
+        camera.setImageWriter(new ImageWriter("antiAliasingTest", 1000, 1000))
                 .build()
                 .renderImage()
                 .writeToImage();
