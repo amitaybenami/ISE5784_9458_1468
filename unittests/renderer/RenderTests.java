@@ -29,7 +29,8 @@ public class RenderTests {
             .setRayTracer(new SimpleRayTracer(scene))
             .setLocation(Point.ZERO).setDirection(new Point(0, 0, -1), new Vector(0, 1, 0))
             .setVpDistance(100)
-            .setVpSize(500, 500);
+            .setVpSize(500, 500)
+            .setAmountOfSamples(9);
 
     /**
      * Produce a scene with basic 3D model and render it into a png image with a
@@ -78,7 +79,7 @@ public class RenderTests {
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.2, 0.2, 0.2))); //
 
         camera
-                .setImageWriter(new ImageWriter("color render test", 1000, 1000).setAmountOfSamples(9))
+                .setImageWriter(new ImageWriter("color render test", 1000, 1000))
                 .build()
                 .renderImage()
                 .printGrid(100, new Color(WHITE))

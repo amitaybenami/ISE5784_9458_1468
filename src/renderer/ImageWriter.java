@@ -31,21 +31,7 @@ public class ImageWriter {
    private String              imageName;
    /** logger for reporting I/O failures */
    private Logger              logger      = Logger.getLogger("ImageWriter");
-   /** number of rays through each pixel*/
-   private int amountOfSamples = 1;
-   /**
-    * boolean variable determining whether using antialiasing or not
-    */
-   private boolean antiAliasing = false;
-   /**
-    * boolean variable determining whether using circle blackboard in antialiasing or not
-    */
-   private boolean antiAliasingCircle = false;
 
-   /**
-    * distance from view plane to focal plane (depth of field)
-    */
-   private double focalDistance = 0;
    // ***************** Constructors ********************** //
    /** Image Writer constructor accepting image name and View Plane parameters,
     * @param imageName the name of png file
@@ -68,43 +54,7 @@ public class ImageWriter {
     * @return the amount of horizontal pixels */
    public int getNx() { return nX; }
 
-   public boolean isAntiAliasing() {
-      return antiAliasing;
-   }
 
-   public int getAmountOfSamples() {
-      return  amountOfSamples;
-   }
-
-   public ImageWriter setAmountOfSamples(int amountOfSamples) {
-      this.amountOfSamples = amountOfSamples;
-      return this;
-   }
-
-   public ImageWriter antiAliasing() {
-      antiAliasing = true;
-      return this;
-   }
-
-   public boolean isAntiAliasingCircle() {
-      return antiAliasingCircle;
-   }
-
-   public ImageWriter antiAliasingCircle() {
-      antiAliasingCircle = true;
-      return this;
-   }
-
-   public double getFocalDistance() {
-      return focalDistance;
-   }
-
-   public ImageWriter setFocalDistance(double focalDistance) {
-      if(focalDistance < 0)
-         throw new IllegalArgumentException("focal plane can't be behind the view plane");
-      this.focalDistance = focalDistance;
-      return this;
-   }
    // ***************** Operations ******************** //
 
    /** Function writeToImage produces unoptimized png file of the image according

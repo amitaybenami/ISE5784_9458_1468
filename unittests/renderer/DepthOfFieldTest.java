@@ -42,7 +42,8 @@ public class DepthOfFieldTest {
             .setDirection(Point.ZERO, new Vector(0, 1, 0))
             .setLocation(new Point(0, 0, 1000)).setVpDistance(1000)
             .setVpSize(250, 250)
-            .setRayTracer(new SimpleRayTracer(scene));
+            .setRayTracer(new SimpleRayTracer(scene))
+            .setAmountOfSamples(9).setFocalDistance(200);
 
     @Test
     public void testDepthOfField() {
@@ -58,7 +59,7 @@ public class DepthOfFieldTest {
         scene.geometries.add(new Sphere(60, new Point(100, 100, -300)).setEmission(new Color(BLUE))
                 .setMaterial(new Material().setKd(0.2).setKs(0.2).setShininess(30).setKt(0.6)));
         camera.setImageWriter(new ImageWriter("depthOfFieldTest", 400, 400)
-                        .setAmountOfSamples(9).setFocalDistance(200))
+                        )
                 .build()
                 .renderImage()
                 .writeToImage();

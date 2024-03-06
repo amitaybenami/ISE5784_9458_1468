@@ -147,9 +147,9 @@ public class ReflectionRefractionTests {
               new SpotLight(new Color(500,500,250),new Point(2,-2,0.5),new Vector(0,0,1)).setKl(0.001).setKq(0.00004).setNarrowBeam(10));
       scene.lights.add(
               new SpotLight(new Color(500,500,250),new Point(-2,-2,0.5),new Vector(0,0,1)).setKl(0.001).setKq(0.00004).setNarrowBeam(10));
-      cameraBuilder.setLocation(new Point(0, 0, 100)).setVpDistance(95)
+      cameraBuilder.setLocation(new Point(0, 0, 100)).setVpDistance(95).setAmountOfSamples(9)
               .setVpSize(60, 60)
-              .setImageWriter(new ImageWriter("impressive", 1000, 1000).setAmountOfSamples(9))
+              .setImageWriter(new ImageWriter("impressive", 1000, 1000))
               .build()
               .renderImage()
               .writeToImage();

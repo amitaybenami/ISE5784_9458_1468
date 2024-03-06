@@ -58,6 +58,36 @@ public class Camera implements Cloneable {
      */
     private Point center;
 
+    /**
+     * amount of threads to use for the creation of the image
+     */
+    private int threadsCount = 1;
+
+    /**
+     * Progress percentage printing interval
+     */
+    private long printInterval = 1;
+
+    private boolean adaptiveSuperSampling = true;
+
+    /**
+     * number of rays through each pixel
+     */
+    private int amountOfSamples = 1;
+    /**
+     * boolean variable determining whether using antialiasing or not
+     */
+    private boolean antiAliasing = false;
+    /**
+     * boolean variable determining whether using circle blackboard in antialiasing or not
+     */
+    private boolean antiAliasingCircle = false;
+
+    /**
+     * distance from view plane to focal plane (depth of field)
+     */
+    private double focalDistance = 0;
+
     private Camera() {
     }
 
@@ -218,25 +248,6 @@ public class Camera implements Cloneable {
         return resetDirection(this.p0, Pto);
     }
 
-
-        /**
-         * cast ray for each pixel
-         */
-    public Camera renderImage(){
-        int ny = imageWriter.getNy();
-        int nx = imageWriter.getNx();
-        int amountOfSamples = imageWriter.getAmountOfSamples();
-        for (int i = 0; i < ny; i += 1) {
-            for (int j = 0; j < nx; j += 1){
-                if (amountOfSamples != 1 && imageWriter.isAntiAliasing())
-                    castBeam(nx,ny,j,i,amountOfSamples);
-                else{
-                castRay(nx, ny,j, i);}
-            }
-        }
-        return this;
-    }
-
     /**
      * construct a ray to a pixel and color the pixel in the image
      *
@@ -252,11 +263,15 @@ public class Camera implements Cloneable {
             imageWriter.writePixel(column, row, color);
         } else {
             Ray ray = constructRay(nX, nY, column, row);
-            color = rayTracer.traceRay(ray, imageWriter.getAmountOfSamples());
+            color = rayTracer.traceRay(ray, amountOfSamples);
             imageWriter.writePixel(column, row, color);
         }
+        pixelManager.pixelDone();
     }
 
+    /**
+     * initialize the blackboard on the camera location for depth of field
+     */
     private void initializeBlackBoard() {
         camBlackBoard = new Blackboard(p0, Vup, Vright, width / imageWriter.getNx() * 8);
         if(adaptiveSuperSampling)
@@ -281,7 +296,6 @@ public class Camera implements Cloneable {
             throw new IllegalStateException("the pixels must be squared for anti-aliasing");
         Blackboard blackboard = new Blackboard(getCenter(nX, nY, column, row), Vup, Vright, width / nX).setCircle(antiAliasingCircle);
 
-        Ray ray;
         Color color = Color.BLACK;
 
         if (adaptiveSuperSampling) {
