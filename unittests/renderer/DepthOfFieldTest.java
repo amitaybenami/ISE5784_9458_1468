@@ -56,8 +56,6 @@ public class DepthOfFieldTest {
                 scene.geometries.add(sphere);
             }
         }
-        scene.geometries.add(new Sphere(60, new Point(100, 100, -300)).setEmission(new Color(BLUE))
-                .setMaterial(new Material().setKd(0.2).setKs(0.2).setShininess(30).setKt(0.6)));
         camera.setImageWriter(new ImageWriter("depthOfFieldTest", 400, 400)
                         )
                 .build()

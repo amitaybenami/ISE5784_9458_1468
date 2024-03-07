@@ -304,11 +304,11 @@ public class Camera implements Cloneable {
             ArrayList<ColoredPoint> coloredPoints= new ArrayList<ColoredPoint>();
             for (int i =0 ; i< amountOfSamples*amountOfSamples;i++)
                 coloredPoints.add(new ColoredPoint(list.get(i),null));
-            color = adaptiveSuperSampling(coloredPoints, amountOfSamples, 0, 0, false);
+            color = adaptiveSuperSampling(coloredPoints, amountOfSamples, 0, 0, null);
         } else {
             List<Point> list = blackboard.getPoints(amountOfSamples);
             for (Point point : list) {
-                color = color.add(color(point));
+                color = color.add(color(point,null));
             }
             color = color.reduce(amountOfSamples * amountOfSamples);
         }
@@ -335,22 +335,29 @@ public class Camera implements Cloneable {
         );
     }
 
-    private Color color(Point point) {
+    private Color color(Point point,Point focalPoint) {
+        if(focalPoint != null)
+            return traceFromPoint(point,focalPoint);
         if (focalDistance > 0)
             return raysThroughFocus(point);
         return traceToPoint(point);
+    }
+
+    private Color traceFromPoint(Point point, Point focalPoint) {
+        Ray ray = new Ray(point, focalPoint.subtract(point));
+        return rayTracer.traceRay(ray, amountOfSamples);
     }
 
     private Color traceToPoint(Point point){
         return rayTracer.traceRay(constructRay(point), amountOfSamples);
     }
 
-    private Color adaptiveSuperSampling(ArrayList<ColoredPoint> list, int lengthOfRow, int indexOnRow, int indexOnColumn, boolean focusing) {
+    private Color adaptiveSuperSampling(ArrayList<ColoredPoint> list, int lengthOfRow, int indexOnRow, int indexOnColumn, Point focalPoint) {
         List<Integer> corners = corners(lengthOfRow, indexOnRow, indexOnColumn);
         boolean sameColor = true;
         for (int i = 0; i < corners.size(); i++) {
             if (list.get(corners.get(i)).color == null)
-                list.set(corners.get(i),new ColoredPoint(list.get(corners.get(i)).point, focusing? traceToPoint(list.get(corners.get(i)).point):color(list.get(corners.get(i)).point)));
+                list.set(corners.get(i),new ColoredPoint(list.get(corners.get(i)).point, color(list.get(corners.get(i)).point,focalPoint)));
             if (i != 0)
                 if (!list.get(corners.get(i)).color.equals(list.get(corners.get(i-1)).color))
                     sameColor = false;
@@ -361,10 +368,10 @@ public class Camera implements Cloneable {
 
         Color color = Color.BLACK;
         if (lengthOfRow > 2)
-            color = color.add(adaptiveSuperSampling(list, lengthOfRow / 2 + 1, indexOnRow, indexOnColumn, focusing)
-                    .add(adaptiveSuperSampling(list, lengthOfRow / 2 + 1, indexOnRow + lengthOfRow / 2, indexOnColumn, focusing))
-                    .add(adaptiveSuperSampling(list, lengthOfRow / 2 + 1, indexOnRow, indexOnColumn + lengthOfRow / 2, focusing))
-                    .add(adaptiveSuperSampling(list, lengthOfRow / 2 + 1, indexOnRow + lengthOfRow / 2, indexOnColumn + lengthOfRow / 2, focusing)));
+            color = color.add(adaptiveSuperSampling(list, lengthOfRow / 2 + 1, indexOnRow, indexOnColumn, focalPoint)
+                    .add(adaptiveSuperSampling(list, lengthOfRow / 2 + 1, indexOnRow + lengthOfRow / 2, indexOnColumn, focalPoint))
+                    .add(adaptiveSuperSampling(list, lengthOfRow / 2 + 1, indexOnRow, indexOnColumn + lengthOfRow / 2, focalPoint))
+                    .add(adaptiveSuperSampling(list, lengthOfRow / 2 + 1, indexOnRow + lengthOfRow / 2, indexOnColumn + lengthOfRow / 2, focalPoint)));
         else
             for (int i = 0; i < 4; i++)
                 color = color.add(list.get(corners.get(i)).color);
@@ -399,16 +406,16 @@ public class Camera implements Cloneable {
             ArrayList<ColoredPoint> coloredPoints= new ArrayList<ColoredPoint>();
             for (int i =0 ; i< amountOfSamples*amountOfSamples;i++)
                 coloredPoints.add(new ColoredPoint(camBlackBoardList.get(i),null));
-            color = adaptiveSuperSampling(coloredPoints, amountOfSamples, 0, 0, true );
+            color = adaptiveSuperSampling(coloredPoints, amountOfSamples, 0, 0, focalPoint );
             return color;
         }
-        Ray ray;
         for (Point point1 : camBlackBoardList) {
-            ray = new Ray(point1, focalPoint.subtract(point1));
-            color = color.add(rayTracer.traceRay(ray, amountOfSamples));
+            color = color.add( traceFromPoint(point1, focalPoint));
         }
         return color.reduce(amountOfSamples * amountOfSamples);
     }
+
+
 
     /**
      * prints a grid in a given color and a given interval on the image
